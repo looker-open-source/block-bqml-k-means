@@ -15,6 +15,7 @@ view: k_means_centroids {
   }
 
   dimension: numerical_value {
+    hidden: yes
     type: number
     sql: ${TABLE}.numerical_value ;;
   }
@@ -36,12 +37,14 @@ view: categorical_value {
   }
 
   dimension: category {
-    group_label: "Categorical Feature Values"
+  }
+
+  dimension: value {
+    hidden: yes
   }
 
   dimension: feature_category {
-    group_label: "Combined Feature Values"
-    label: "Feature: Category"
+    label: "Feature and Category"
     type: string
     sql:  CONCAT(${k_means_centroids.feature},
             CASE
@@ -50,13 +53,8 @@ view: categorical_value {
             END) ;;
   }
 
-  dimension: value {
-    group_label: "Categorical Feature Values"
-  }
-
   dimension: feature_category_value {
-    group_label: "Combined Feature Values"
-    label: "Feature: Category Value"
+    label: "Value"
     type: number
     sql: COALESCE(${k_means_centroids.numerical_value}, ${value}) ;;
   }

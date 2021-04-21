@@ -51,4 +51,16 @@ explore: bqml_k_means {
     sql: LEFT JOIN UNNEST(${k_means_centroids.categorical_value}) as categorical_value ;;
     relationship: one_to_many
   }
+
+  join: k_means_centroid_item_count {
+    type: left_outer
+    sql_on: ${k_means_centroids.centroid_id} = ${k_means_centroid_item_count.centroid_id} ;;
+    relationship: one_to_one
+  }
+
+  join: k_means_centroids_indexed_values {
+    type: left_outer
+    sql_on: ${k_means_centroids.centroid_id} = ${k_means_centroids_indexed_values.centroid_id} AND ${categorical_value.feature_category} = ${k_means_centroids_indexed_values.feature_category} ;;
+    relationship: one_to_one
+  }
 }
