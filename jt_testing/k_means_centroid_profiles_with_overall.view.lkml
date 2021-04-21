@@ -9,28 +9,32 @@ view: k_means_centroid_profiles_with_overall {
 
         ,coalesce(k_means_centroids.numerical_value,centroid_categorical_value.value) as centroid_avg_value
 from
-ML.CENTROIDS(MODEL looker_pdts.age_source_revenue)  AS k_means_centroids
+--ML.CENTROIDS(MODEL looker_pdts.age_source_revenue)  AS k_means_centroids
+ML.CENTROIDS(MODEL @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %}) as k_means_centroids
 LEFT JOIN UNNEST(k_means_centroids.categorical_value) as centroid_categorical_value
 )
 ,c1 as (select centroid_id
-         ,user_count
-         ,user_count / sum(user_count) over (partition by 1) as user_pct_total
-         ,sum(user_count) over (partition by 1) as total_user_count
+         ,item_count
+         ,item_count / sum(item_count) over (partition by 1) as item_pct_total
+         ,sum(item_count) over (partition by 1) as total_item_count
   from (
   select centroid_id
-         ,count(distinct user_id) as user_count
-  from ML.PREDICT(MODEL looker_pdts.age_source_revenue,
-                        TABLE looker_pdts.age_source_revenue_training_data
-                      )
+         ,count(distinct item_id) as item_count
+  from ML.PREDICT(MODEL @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %},
+                      TABLE @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %}_training_data
+                    )
+ -- from ML.PREDICT(MODEL looker_pdts.age_source_revenue,
+--                        TABLE looker_pdts.age_source_revenue_training_data
+  --                    )
   group by 1 ) c0
   )
 ,w as
   (select cf.*
-       ,100* (cf.centroid_avg_value / sum(cf.centroid_avg_value * c1.user_pct_total) over (partition by cf.feature_category)) as index_to_avg
-       ,(cf.centroid_avg_value / sum(cf.centroid_avg_value * c1.user_pct_total) over (partition by cf.feature_category)) - 1 as pct_diff_from_avg
-       ,c1.user_pct_total
-       ,c1.user_count
-       ,c1.total_user_count
+       ,100* (cf.centroid_avg_value / sum(cf.centroid_avg_value * c1.item_pct_total) over (partition by cf.feature_category)) as index_to_avg
+       ,(cf.centroid_avg_value / sum(cf.centroid_avg_value * c1.item_pct_total) over (partition by cf.feature_category)) - 1 as pct_diff_from_avg
+       ,c1.item_pct_total
+       ,c1.item_count
+       ,c1.total_item_count
 from cf
 join c1 on cf.centroid_id = c1.centroid_id
 )
@@ -38,23 +42,23 @@ join c1 on cf.centroid_id = c1.centroid_id
 --will union to result set in order to compare centroid to average
 ,overall as (select 0 as centroid_id
         ,w.feature as feature
-        ,sum(w.feature_value * w.user_pct_total) as feature_value
+        ,sum(w.feature_value * w.item_pct_total) as feature_value
         ,w.category as category
-        ,sum(w.category_value * w.user_pct_total) as category_value
+        ,sum(w.category_value * w.item_pct_total) as category_value
         ,w.feature_category
 
-        ,sum(w.centroid_avg_value * w.user_pct_total) as centroid_avg_value
+        ,sum(w.centroid_avg_value * w.item_pct_total) as centroid_avg_value
         ,100 as index_to_avg
         ,0 as pct_diff_from_avg
         ,1 as user_pct_total
-        ,max(w.total_user_count) as user_count
+        ,max(w.total_item_count) as item_count
        from w
        group by 1,2,4,6,8,9
 )
 
 select * from overall
 union all
-select * except (total_user_count) from w
+select * except (total_item_count) from w
  ;;
   }
 

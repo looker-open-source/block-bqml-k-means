@@ -1,4 +1,4 @@
-view: k_means_centroids {
+view: k_means_centroid_feature {
   label: "[7] BQML: Centroids"
 
   sql_table_name: ML.CENTROIDS(MODEL @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %}) ;;
@@ -19,14 +19,14 @@ view: k_means_centroids {
     sql: ${TABLE}.numerical_value ;;
   }
 
-  dimension: categorical_value {
+  dimension: k_means_centroid_category_values {
     hidden: yes
     type: string
     sql: ${TABLE}.categorical_value ;;
   }
 }
 
-view: categorical_value {
+view: k_means_centroid_category_values {
   label: "[7] BQML: Centroids"
 
   dimension: centroid_category_id {
@@ -36,7 +36,7 @@ view: categorical_value {
   }
 
   dimension: category {
-    group_label: "Categorical Feature Values"
+    #group_label: "Categorical Feature Values"
   }
 
   dimension: feature_category {
@@ -52,10 +52,11 @@ view: categorical_value {
 
   dimension: value {
     group_label: "Categorical Feature Values"
+    hidden: yes
   }
 
   dimension: feature_category_value {
-    group_label: "Combined Feature Values"
+    #group_label: "Combined Feature Values"
     label: "Feature: Category Value"
     type: number
     sql: COALESCE(${k_means_centroids.numerical_value}, ${value}) ;;
