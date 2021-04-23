@@ -1,7 +1,7 @@
 #find the item counts from centroid and compute percent of total
 #will use the centroid percent of total as weight to compute overall weighted average
 
-view: k_means_centroid_counts {
+view: jt_k_means_centroid_counts {
   derived_table: {
     sql: select centroid_id
                ,item_count

@@ -59,8 +59,15 @@ explore: bqml_k_means {
   }
 
   join: k_means_centroids_indexed_values {
-    type: left_outer
+    type: full_outer
     sql_on: ${k_means_centroids.centroid_id} = ${k_means_centroids_indexed_values.centroid_id} AND ${categorical_value.feature_category} = ${k_means_centroids_indexed_values.feature_category} ;;
     relationship: one_to_one
   }
+
+  # join: k_means_centroids_indexed_values {
+  #   type: full_outer
+  #   sql_on: ${k_means_predict.centroid_id} = ${k_means_centroids_indexed_values.centroid_id} ;;
+  #   relationship: many_to_one
+  # }
+
 }

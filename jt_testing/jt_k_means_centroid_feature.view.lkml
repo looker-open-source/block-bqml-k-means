@@ -1,4 +1,4 @@
-view: k_means_centroid_feature {
+view: jt_k_means_centroid_feature {
   label: "[7] BQML: Centroids"
 
   sql_table_name: ML.CENTROIDS(MODEL @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %}) ;;
@@ -26,13 +26,13 @@ view: k_means_centroid_feature {
   }
 }
 
-view: k_means_centroid_category_values {
+view: jt_k_means_centroid_category_values {
   label: "[7] BQML: Centroids"
 
   dimension: centroid_category_id {
     hidden: yes
     primary_key: yes
-    sql: CONCAT(${k_means_centroids.centroid_id}, ${k_means_centroids.feature}, coalesce(${category},'n/a')) ;;
+    sql: CONCAT(${jt_k_means_centroids.centroid_id}, ${jt_k_means_centroids.feature}, coalesce(${category},'n/a')) ;;
   }
 
   dimension: category {
@@ -43,7 +43,7 @@ view: k_means_centroid_category_values {
     group_label: "Combined Feature Values"
     label: "Feature: Category"
     type: string
-    sql:  CONCAT(${k_means_centroids.feature},
+    sql:  CONCAT(${jt_k_means_centroids.feature},
             CASE
               WHEN ${category} IS NOT NULL THEN CONCAT(': ', ${category})
               ELSE ''
@@ -59,6 +59,6 @@ view: k_means_centroid_category_values {
     #group_label: "Combined Feature Values"
     label: "Feature: Category Value"
     type: number
-    sql: COALESCE(${k_means_centroids.numerical_value}, ${value}) ;;
+    sql: COALESCE(${jt_k_means_centroids.numerical_value}, ${value}) ;;
   }
 }

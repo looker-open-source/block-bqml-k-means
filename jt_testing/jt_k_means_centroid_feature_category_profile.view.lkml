@@ -6,7 +6,7 @@
 #  k_means_centroid_feature_category
 #  k_means_overall_feature_category
 
-view: k_means_centroid_feature_category_profile {
+view: jt_k_means_centroid_feature_category_profile {
   label: "[7] BQML: Centroids"
   derived_table: {
     sql:
@@ -23,9 +23,9 @@ view: k_means_centroid_feature_category_profile {
                     --  ,cc.total_item_count
               from
               --ML.CENTROIDS(MODEL looker_pdts.age_source_revenue)  AS k_means_centroids
-              ${k_means_centroid_feature_category.SQL_TABLE_NAME} as cfc
-             JOIN ${k_means_overall_feature_category.SQL_TABLE_NAME} as ofc on cfc.feature_category = ofc.feature_category
-            -- JOIN ${k_means_centroid_counts.SQL_TABLE_NAME} cc on cfc.centroid_id = cc.centroid_id
+              ${jt_k_means_centroid_feature_category.SQL_TABLE_NAME} as cfc
+             JOIN ${jt_k_means_overall_feature_category.SQL_TABLE_NAME} as ofc on cfc.feature_category = ofc.feature_category
+            -- JOIN ${jt_k_means_centroid_counts.SQL_TABLE_NAME} cc on cfc.centroid_id = cc.centroid_id
 
              UNION ALL
              select centroid_id
@@ -35,7 +35,7 @@ view: k_means_centroid_feature_category_profile {
                     ,feature_category_value
                     ,100 as index_to_avg
                     ,0 as pct_diff_from_avg
-             from ${k_means_overall_feature_category.SQL_TABLE_NAME}
+             from ${jt_k_means_overall_feature_category.SQL_TABLE_NAME}
 
 
               ;;

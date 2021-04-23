@@ -1,7 +1,7 @@
 #derive feature category and merge numercial_value and categorical_value in single feature_category_value field
 
 
-view: k_means_centroid_feature_category {
+view: jt_k_means_centroid_feature_category {
 derived_table: {
         sql:
               select

@@ -3,7 +3,7 @@
 #centroid feature category profile to overall average
 #will be used on visualization to show which features are driving each centroid
 
-view: k_means_overall_feature_category {
+view: jt_k_means_overall_feature_category {
  derived_table: {
    sql:
       select
@@ -13,8 +13,8 @@ view: k_means_overall_feature_category {
         ,cfc.feature_category
         ,sum(cfc.feature_category_value * cc.item_count_percent_of_total) as feature_category_value
         ,max(cc.total_item_count) as item_count
-      from ${k_means_centroid_feature_category.SQL_TABLE_NAME} as cfc
-      join ${k_means_centroid_counts.SQL_TABLE_NAME} as cc on cfc.centroid_id = cc.centroid_id
+      from ${jt_k_means_centroid_feature_category.SQL_TABLE_NAME} as cfc
+      join ${jt_k_means_centroid_counts.SQL_TABLE_NAME} as cc on cfc.centroid_id = cc.centroid_id
       group by 1,2,3,4
       ;;
  }

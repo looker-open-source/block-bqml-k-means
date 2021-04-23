@@ -14,8 +14,8 @@ view_name: jt_users
   }
 
   query: cluster_profiles {
-    dimensions: [k_means_centroid_feature_category_profile.centroid_label, k_means_centroid_feature_category_profile.feature_category]
-    measures: [k_means_centroid_feature_category_profile.centroid_value_highlight]
+    dimensions: [jt_k_means_centroid_feature_category_profile.centroid_label, jt_k_means_centroid_feature_category_profile.feature_category]
+    measures: [jt_k_means_centroid_feature_category_profile.centroid_value_highlight]
     filters: [model_name.select_model_name: "\"cust_shop_segments\""]
   }
 
@@ -86,9 +86,9 @@ join: nearest_centroids_distance {
 #   relationship: many_to_one
 # }
 
-join: k_means_centroid_feature_category_profile {
+join: jt_k_means_centroid_feature_category_profile {
     type: full_outer
-    sql_on: ${k_means_predict.centroid_id} = ${k_means_centroid_feature_category_profile.centroid_id} ;;
+    sql_on: ${k_means_predict.centroid_id} = ${jt_k_means_centroid_feature_category_profile.centroid_id} ;;
     relationship: many_to_one
   }
 

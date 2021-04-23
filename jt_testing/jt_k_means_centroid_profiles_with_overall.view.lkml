@@ -1,4 +1,4 @@
-view: k_means_centroid_profiles_with_overall {
+view: jt_k_means_centroid_profiles_with_overall {
   derived_table: {
     sql: with cf as (select  k_means_centroids.centroid_id  AS centroid_id
         ,k_means_centroids.feature as feature

@@ -6,7 +6,8 @@ view: k_means_centroids {
   dimension: centroid_id {
     primary_key: yes
     type: number
-    sql: ${TABLE}.centroid_id ;;
+    label: "Nearest Centroid"
+    sql: coalesce(${TABLE}.centroid_id,0) ;;
   }
 
   dimension: feature {
@@ -46,6 +47,7 @@ view: categorical_value {
   dimension: feature_category {
     label: "Feature and Category"
     type: string
+    hidden: yes #user will select from k_means_centroid_profiles
     sql:  CONCAT(${k_means_centroids.feature},
             CASE
               WHEN ${category} IS NOT NULL THEN CONCAT(': ', ${category})
@@ -55,6 +57,7 @@ view: categorical_value {
 
   dimension: feature_category_value {
     label: "Value"
+    description: "Nearest Centroid Average Value"
     type: number
     sql: COALESCE(${k_means_centroids.numerical_value}, ${value}) ;;
   }
