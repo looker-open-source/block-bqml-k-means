@@ -2,7 +2,7 @@ view: k_means_predict {
   label: "[6] BQML: Predictions"
 
   sql_table_name: ML.PREDICT(MODEL @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %},
-                      TABLE @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %}_training_data
+                      TABLE @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %}k_means_training_data
                     )
   ;;
 

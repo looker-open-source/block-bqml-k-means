@@ -13,7 +13,7 @@ view: k_means_create_model {
                   , KMEANS_INIT_METHOD = 'KMEANS++'
                   , STANDARDIZE_FEATURES = TRUE)
                   AS (SELECT * EXCEPT(item_id)
-                      FROM @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %}_training_data)
+                      FROM @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %}k_means_training_data)
       ;;
 
         sql_step: CREATE TABLE IF NOT EXISTS @{looker_temp_dataset_name}.BQML_K_MEANS_MODEL_INFO
