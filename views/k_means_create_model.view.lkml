@@ -24,16 +24,19 @@ view: k_means_create_model {
                   created_at TIMESTAMP)
       ;;
 
-        sql_step: MERGE @{looker_temp_dataset_name}.BQML_K_MEANS_MODEL_INFO AS existing_records
+        sql_step: MERGE @{looker_temp_dataset_name}.BQML_K_MEANS_MODEL_INFO AS T
                   USING (SELECT '{% parameter model_name.select_model_name %}' AS model_name,
                         '{% parameter choose_number_of_clusters %}' AS number_of_clusters,
                         '{% parameter k_means_training_data.select_item_id %}' AS item_id,
                         {% assign features = _filters['k_means_training_data.select_features'] | sql_quote | replace: '"','' | remove: "'" %}
                           '{{ features }}' AS features,
-                        CURRENT_TIMESTAMP AS created_at) AS new_record
-                  ON existing_records.model_name = new_record.model_name
+                        CURRENT_TIMESTAMP AS created_at) AS S
+                  ON T.model_name = S.model_name
                   WHEN MATCHED THEN
-                    DELETE
+                    UPDATE SET number_of_clusters=S.number_of_clusters
+                        , item_id=S.item_id
+                        , features=S.features
+                        , created_at=S.created_at
                   WHEN NOT MATCHED THEN
                     INSERT (model_name, number_of_clusters, item_id, features, created_at)
                     VALUES(model_name, number_of_clusters, item_id, features, created_at)
