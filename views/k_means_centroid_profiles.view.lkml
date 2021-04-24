@@ -1,3 +1,9 @@
+###############################################################################################################################################################################
+# Logic to generate the weighted average mean for each feature_category in k-means model
+# Then compare each centroid to that weighted average and compute percent difference from average and index value to average
+# Values can then be used in visualization that highlights the differences
+###############################################################################################################################################################################
+
 view: k_means_centroid_feature_category {
   derived_table: {
     sql:  SELECT k_means_centroids.centroid_id AS centroid_id
