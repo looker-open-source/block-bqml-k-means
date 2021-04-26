@@ -26,13 +26,12 @@ explore: bqml_k_means {
 
   join: k_means_evaluate {
     type: cross
-    relationship: one_to_one
+    relationship: many_to_many
   }
 
   join: k_means_predict {
-    type: left_outer
-    sql_on: TRUE ;;
-    relationship: one_to_one
+    type: cross
+    relationship: many_to_many
   }
 
   join: nearest_centroids_distance {

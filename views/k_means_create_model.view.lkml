@@ -28,7 +28,7 @@ view: k_means_create_model {
                 USING (SELECT '{% parameter model_name.select_model_name %}' AS model_name,
                       '{% parameter choose_number_of_clusters %}' AS number_of_clusters,
                       '{% parameter k_means_training_data.select_item_id %}' AS item_id,
-                      {% assign features = _filters['k_means_training_data.select_features'] | sql_quote | replace: '"','' | remove: "'" %}
+                      {% assign features = _filters['k_means_training_data.select_features'] | sql_quote | remove: '"' | remove: "'" %}
                         '{{ features }}' AS features,
                       CURRENT_TIMESTAMP AS created_at) AS S
                 ON T.model_name = S.model_name
