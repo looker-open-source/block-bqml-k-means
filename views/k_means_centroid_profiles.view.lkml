@@ -5,6 +5,7 @@
 # also UNION the overall weighted average to the Centroids Profile with centroid_id = 0
 ############################################################################################################################
 
+#combine centroid values from numerical and categorical variables
 view: k_means_centroid_feature_category {
   derived_table: {
     sql:  SELECT k_means_centroids.centroid_id AS centroid_id
@@ -20,22 +21,6 @@ view: k_means_centroid_feature_category {
     ;;
   }
 }
-
-view: k_means_overall_feature_category {
-  derived_table: {
-    sql:
-      select
-        0 as centroid_id
-        ,cfc.feature_category
-        ,cfc.is_categorical
-        ,sum(cfc.value * cc.item_pct_total) as value
-        ,max(cc.item_count) as item_count
-      from ${k_means_centroid_feature_category.SQL_TABLE_NAME} as cfc
-      join ${k_means_centroid_item_count.SQL_TABLE_NAME} as cc on cfc.centroid_id = cc.centroid_id
-      group by 1,2, 3
-      ;;
-  }
-  }
 
 view: k_means_centroid_item_count {
   label: "[7] BQML: Centroids"
@@ -69,6 +54,23 @@ view: k_means_centroid_item_count {
     type: number
     sql: ${TABLE}.item_pct_total ;;
     value_format_name: percent_1
+  }
+}
+
+#find the weighted average value by feature_category (weight each centroid by % of total in training set)
+view: k_means_overall_feature_category {
+  derived_table: {
+    sql:
+      select
+        0 as centroid_id
+        ,cfc.feature_category
+        ,cfc.is_categorical
+        ,sum(cfc.value * cc.item_pct_total) as value
+        ,max(cc.item_count) as item_count
+      from ${k_means_centroid_feature_category.SQL_TABLE_NAME} as cfc
+      join ${k_means_centroid_item_count.SQL_TABLE_NAME} as cc on cfc.centroid_id = cc.centroid_id
+      group by 1,2, 3
+      ;;
   }
 }
 
