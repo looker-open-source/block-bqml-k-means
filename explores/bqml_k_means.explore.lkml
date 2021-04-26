@@ -11,28 +11,23 @@ explore: bqml_k_means {
 
   join: model_name {
     sql:  ;;
-    relationship: one_to_one
   }
 
   join: k_means_training_data {
     sql:  ;;
-    relationship: one_to_one
   }
 
   join: k_means_create_model {
     sql:  ;;
-    relationship: one_to_one
   }
 
   join: k_means_evaluate {
     type: cross
-    relationship: one_to_one
   }
 
   join: k_means_predict {
-    type: left_outer
-    sql_on: TRUE ;;
-    relationship: one_to_one
+    type: cross
+    relationship: many_to_one
   }
 
   join: nearest_centroids_distance {
