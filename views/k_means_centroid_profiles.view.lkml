@@ -22,6 +22,7 @@ view: k_means_centroid_feature_category {
   }
 }
 
+#find number of observations by centroid and compute % of Total for use as a weighting value for overall averages
 view: k_means_centroid_item_count {
   label: "[7] BQML: Centroids"
 
