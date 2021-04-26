@@ -7,7 +7,7 @@ view: k_means_training_data {
     sql_create: CREATE OR REPLACE VIEW @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %}_k_means_training_data
                   AS  SELECT
                         {% parameter select_item_id %} AS item_id,
-                        {% assign features = _filters['select_features'] | sql_quote | replace: '"','' | remove: "'" %}
+                        {% assign features = _filters['select_features'] | sql_quote | remove: '"' | remove: "'" %}
                           {{ features }}
                       FROM ${input_data.SQL_TABLE_NAME}
     ;;
