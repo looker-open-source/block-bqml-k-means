@@ -1,4 +1,4 @@
-connection: "advanced_analytics_accelerator"
+connection: "@{database_connection}"
 
 label: "BQML K-Means Clustering"
 

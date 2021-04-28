@@ -1,4 +1,4 @@
-connection: "advanced_analytics_accelerator"
+connection: "@{database_connection}"
 
 include: "/explores/bqml_k_means.explore"
 include: "/use_case_refinements/ecommerce_customer_segmentation/*.view"
