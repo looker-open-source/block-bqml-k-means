@@ -11,7 +11,7 @@ Use this block to design user-friendly Looker Explores that allow business users
 4. Create a refinement of the *input_data* View for your use case
 5. Create a model for your use case
 6. Create an Explore in your new use case model that extends the *bqml_k_means* Explore
-7. Define the JOIN between your input data and predictions
+7. Define the JOIN between your input data and predictions in the extending Explore
 
 
 ## Resources
