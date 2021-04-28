@@ -2,16 +2,12 @@ include: "/views/*.view"
 
 explore: bqml_k_means {
   extension: required
+  view_name: model_name
   group_label: "Advanced Analytics with BQML"
   description: "Use this Explore to build and evaluate a BQML K-means Clustering model"
 
   always_filter: {
     filters: [model_name.select_model_name: ""]
-  }
-
-  join: model_name {
-    sql:  ;;
-    relationship: one_to_one
   }
 
   join: k_means_training_data {
@@ -29,9 +25,15 @@ explore: bqml_k_means {
     relationship: many_to_many
   }
 
-  join: k_means_predict {
+  join: input_data {
     type: cross
     relationship: many_to_many
+  }
+
+  join: k_means_predict {
+    type: full_outer
+    relationship: one_to_one
+    sql_on:  ;;
   }
 
   join: nearest_centroids_distance {

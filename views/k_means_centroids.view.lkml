@@ -1,5 +1,5 @@
 view: k_means_centroids {
-  label: "[7] BQML: Centroids"
+  label: "[8] BQML: Centroids"
 
   sql_table_name: ML.CENTROIDS(MODEL @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %}_k_means_model) ;;
 
@@ -29,7 +29,7 @@ view: k_means_centroids {
 }
 
 view: categorical_value {
-  label: "[7] BQML: Centroids"
+  label: "[8] BQML: Centroids"
 
   dimension: centroid_category_id {
     hidden: yes

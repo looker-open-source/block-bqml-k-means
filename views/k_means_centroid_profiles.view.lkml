@@ -24,7 +24,7 @@ view: k_means_centroid_feature_category {
 
 #find number of observations by centroid and compute % of Total for use as a weighting value for overall averages
 view: k_means_centroid_item_count {
-  label: "[7] BQML: Centroids"
+  label: "[8] BQML: Centroids"
 
   derived_table: {
     sql:  SELECT centroid_id
@@ -76,7 +76,7 @@ view: k_means_overall_feature_category {
 }
 
 view: k_means_centroids_indexed_values {
-  label: "[7] BQML: Centroids"
+  label: "[8] BQML: Centroids"
 
   derived_table: {
     sql:  SELECT k_means_centroid_feature_category.centroid_id AS centroid_id
