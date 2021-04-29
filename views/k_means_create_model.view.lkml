@@ -52,10 +52,10 @@ view: k_means_create_model {
     default_value: "auto"
   }
 
-  dimension: status {
+  dimension: train_model {
     view_label: "[5] BQML: Create Model"
-    label: "Build Status (REQUIRED)"
-    description: "Selecting this field is required to start building your model"
+    label: "Train Model (REQUIRED)"
+    description: "Selecting this field is required to start training your model"
     type: string
     sql: 'Complete' ;;
   }
