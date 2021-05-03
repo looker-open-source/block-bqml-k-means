@@ -2,8 +2,9 @@ include: "/explores/model_name_suggestions.explore"
 
 view: model_name {
   label: "[2] BQML: Name Your Model"
-  sql_table_name: @{looker_temp_dataset_name}.BQML_K_MEANS_MODEL_INFO ;;
-
+  derived_table: {
+    sql: SELECT '{% parameter select_model_name %}' AS model_name ;;
+  }
 
   parameter: select_model_name {
     label: "BQML Model Name (REQUIRED)"
