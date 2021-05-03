@@ -45,7 +45,7 @@ view: k_means_create_model {
   }
 
   parameter: choose_number_of_clusters {
-    view_label: "[4] BQML: Choose Model Parameters"
+    view_label: "[4] BQML: Set Model Parameters"
     label: "Select Number of Clusters (optional)"
     description: "Enter the number of clusters you want to create"
     type: number
