@@ -31,9 +31,8 @@ explore: bqml_k_means {
   }
 
   join: k_means_predict {
-    type: full_outer
-    relationship: one_to_one
-    sql_on:  ;;
+    type: cross
+    relationship: many_to_many
   }
 
   join: nearest_centroids_distance {
