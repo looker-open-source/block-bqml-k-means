@@ -3,6 +3,15 @@ include: "/views/input_data.view"
 view: +input_data {
   derived_table: {
     sql:  SELECT * EXCEPT(id,user_id), users.id as user_id
+                ,CAST(TIMESTAMP_DIFF(current_timestamp() , users.created_at , DAY) AS INT64) AS days_as_customer
+                ,case when CAST(TIMESTAMP_DIFF(current_timestamp() , users.created_at , DAY) AS INT64) <= 90 then 'Yes' else 'No' END as is_new_customer
+                ,CAST(TIMESTAMP_DIFF(current_timestamp() , user_order_facts.first_order , DAY) AS INT64) as days_since_first_order
+                ,CAST(TIMESTAMP_DIFF(current_timestamp() , user_order_facts.latest_order , DAY) AS INT64) as days_since_latest_order
+                ,CASE WHEN (CAST(TIMESTAMP_DIFF(current_timestamp() , user_order_facts.latest_order , DAY) AS INT64))<=90  THEN 'Yes' ELSE 'No' END as has_order_in_past_90_days
+                ,case when user_order_facts.lifetime_orders > 1 then TIMESTAMP_DIFF(user_order_facts.latest_order,user_order_facts.first_order , DAY) / user_order_facts.lifetime_orders
+                    else TIMESTAMP_DIFF(current_timestamp() , user_order_facts.latest_order , DAY) end as avg_days_between_orders
+                ,safe_divide(user_order_facts.lifetime_revenue,user_order_facts.lifetime_orders) as avg_order_revenue
+                ,case when user_order_facts.lifetime_orders >= 4 then 'Yes' else 'No' end as has_4p_orders
           FROM `looker-private-demo.ecomm.users` AS users
           LEFT JOIN `advanced-analytics-accelerator.looker_pdts.7L_advanced_analytics_accelerator_user_order_facts` AS user_order_facts
               ON users.id = user_order_facts.user_id
@@ -111,7 +120,50 @@ view: +input_data {
     sql_longitude: ${TABLE}.longitude ;;
   }
 
+  dimension: days_as_customer {
+    type: number
+    sql: ${TABLE}.days_as_customer;;
+  }
+
+  dimension: is_new_customer {
+    type: yesno
+    sql: ${TABLE}.is_new_customer='Yes' ;;
+  }
+
+  dimension: days_since_first_order {
+    type: number
+    sql: ${TABLE}.days_since_latest_order ;;
+  }
+
+  dimension: days_since_latest_order {
+    type: number
+    sql: ${TABLE}.days_since_latest_order ;;
+  }
+
+  dimension: has_order_in_past_90_days {
+    type: yesno
+    sql: ${TABLE}.has_order_in_past_90_days='Yes' ;;
+  }
+
+  dimension: avg_days_between_orders {
+    type: number
+    sql: ${TABLE}.avg_days_between_orders ;;
+  }
+
+  dimension: has_4p_orders {
+    type: yesno
+    sql: ${TABLE}.has_4p_orders='Yes' ;;
+  }
+
+  dimension: avg_order_revenue {
+    type: number
+    sql: ${TABLE}.avg_order_revenue ;;
+    value_format_name: usd
+  }
+
   measure: count {
     type: count
   }
+
+
 }

@@ -44,13 +44,14 @@ view: k_means_centroid_item_count {
   }
 
   dimension: item_count {
+    label: "Count of Observations"
     type: number
     description: "Number of Observations in Nearest Centroid"
     hidden: no
   }
 
   dimension: item_pct_total {
-    label: "Percent of Total Items"
+    label: "Percent of Total Observations"
     description: "Nearest Centroid Percent of Total Observations in Training Set"
     type: number
     sql: ${TABLE}.item_pct_total ;;
@@ -112,11 +113,13 @@ view: k_means_centroids_indexed_values {
 
   dimension: nearest_centroid_label {
     type: string
+    description: "Centroid ID including Overall for Comparison"
     sql: case when ${centroid_id} = 0 then "Overall Weighted Average" else cast(${centroid_id} as string) end ;;
   }
 
   dimension: nearest_centroid_label_with_pct_of_total {
     type: string
+    description: "Centroid ID (xx.x% of Total)"
     sql: case when ${centroid_id} = 0 then "Overall Weighted Average" else cast(${centroid_id} as string) end ;;
     html: {% if centroid_id._value == 0 %}
     {{rendered_value}}
@@ -124,7 +127,6 @@ view: k_means_centroids_indexed_values {
         <a style="color:#003f5c;font-size:16px"> <b> {{rendered_value}} </b> </a>     <a style="font-size: 10px">({{ k_means_centroid_item_count.item_pct_total._rendered_value }})
           {% endif %};;
   }
-  #  <a style="color:#003f5c;font-size:16px"> <b> {{rendered_value}} </b> </a> <br><a style="font-size: 10px">({{ k_means_centroid_item_count.item_pct_total._rendered_value }})
 
   dimension: feature_category {
     hidden: no
@@ -173,14 +175,13 @@ view: k_means_centroids_indexed_values {
 #for highlight chart, plot pct_diff_from_avg but display centroid_value._rendered_value
   measure: centroid_value_highlight {
     label: "Value "
-    description: "Use to Highlight which features are driving each cluster. Underlying value is Percent Difference from Weighted Average for conditional formatting while the Centroid Value is displayed."
+    description: "Use to Highlight which features are driving each cluster. Centroid value is displayed while underlying value is Percent Difference from Weighted Average. Use Percent Difference from Average in Table Conditional Formatting to highlight differences."
     type: average
     sql: ${pct_diff_from_training_set_weighted_avg} ;;
     html: {% if is_categorical._value == 'Yes' %}{{ centroid_value._rendered_value | round:1 }}%
         {% else %} {{ centroid_value._rendered_value }}
         {% endif %};;
-  #html: {{ centroid_value._rendered_value }} ;;
-  #times - multiplication e.g {{ 5 | times:4 }} #=> 20
+
     }
 
 }

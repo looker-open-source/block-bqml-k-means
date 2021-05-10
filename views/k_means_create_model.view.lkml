@@ -47,7 +47,7 @@ view: k_means_create_model {
   parameter: choose_number_of_clusters {
     view_label: "[4] BQML: Set Model Parameters"
     label: "Select Number of Clusters (optional)"
-    description: "Enter the number of clusters you want to create"
+    description: "Enter the number of clusters you want to create. If omitted, BigQuery ML will choose a reasonable default based on the total number of rows in the training data"
     type: number
     default_value: "auto"
   }

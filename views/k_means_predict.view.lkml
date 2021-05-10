@@ -25,18 +25,21 @@ view: k_means_predict {
   }
 
   measure: item_count {
+    label: "Count of Observations"
     type: count
-    description: "Number of Observations in Nearest Centroid"
+    description: "Number of Observations"
   }
 
   measure: item_count_percent_of_total {
+    label: "Percent of Total Observations"
     type: percent_of_total
-    description: "Nearest Centroid Percent of Total Observations in Training Set"
+    description: "Percent of Total Observations in Training Set"
     sql: ${item_count} ;;
   }
 
   measure: total_item_count {
     type: number
+    label: "Total Observations in Training Set"
     description: "Total Number of Observations in Training Set"
     # sql: (select count(distinct item_id) from ML.PREDICT(MODEL @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %},
     #                   TABLE @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %}_training_data
@@ -47,7 +50,7 @@ view: k_means_predict {
 }
 
 view: nearest_centroids_distance {
-  label: "[6] BQML: Predictions"
+  label: "[7] BQML: Predictions"
 
   dimension: item_centroid_id {
     hidden: yes

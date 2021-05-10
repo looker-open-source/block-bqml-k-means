@@ -5,11 +5,13 @@ view: k_means_evaluate {
 
   dimension: davies_bouldin_index {
     type: number
+    description: "The lower the value, the better the separation of the centroids and the 'tightness' inside the centroids. If creating multiple versions of a model with different number of clusters, the version which minimizes the Davies-Boudin Index is considered best."
     sql: ${TABLE}.davies_bouldin_index ;;
   }
 
   dimension: mean_squared_distance {
     type: number
+    description: "The lower the value, the better the cluster solution. A goal of k-means clustering is to minimize the distance of any data point and its cluster center (the 'tightness' inside centroids)."
     sql: ${TABLE}.mean_squared_distance ;;
   }
 }
