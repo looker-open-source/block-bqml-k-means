@@ -1,7 +1,7 @@
 connection: "@{database_connection}"
 
 include: "/explores/bqml_k_means.explore"
-include: "/use_case_refinements/ecommerce_customer_segmentation/*.view"
+include: "/use_case_refinements/ecommerce_customer_segmentation/*"
 
 explore: ecommerce_customer_segmentation {
   label: "BQML K-Means: eCommerce Customer Segmentation"
@@ -14,5 +14,4 @@ explore: ecommerce_customer_segmentation {
     relationship: one_to_one
     sql_on: ${input_data.user_id} = ${k_means_predict.item_id} ;;
   }
-
 }

@@ -29,6 +29,11 @@ view: model_info {
     sql: ${TABLE}.created_at ;;
   }
 
+  dimension: explore {
+    type: string
+    sql: ${TABLE}.explore ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [model_name, created_at_time]

@@ -17,11 +17,12 @@ view: k_means_create_model {
       ;;
 
       sql_step: CREATE TABLE IF NOT EXISTS @{looker_temp_dataset_name}.BQML_K_MEANS_MODEL_INFO
-                (model_name STRING,
-                number_of_clusters STRING,
-                item_id STRING,
-                features STRING,
-                created_at TIMESTAMP)
+                (model_name         STRING,
+                number_of_clusters  STRING,
+                item_id             STRING,
+                features            STRING,
+                created_at          TIMESTAMP,
+                explore             STRING)
     ;;
 
       sql_step: MERGE @{looker_temp_dataset_name}.BQML_K_MEANS_MODEL_INFO AS T
@@ -30,16 +31,19 @@ view: k_means_create_model {
                       '{% parameter k_means_training_data.select_item_id %}' AS item_id,
                       {% assign features = _filters['k_means_training_data.select_features'] | sql_quote | remove: '"' | remove: "'" %}
                         '{{ features }}' AS features,
-                      CURRENT_TIMESTAMP AS created_at) AS S
+                      CURRENT_TIMESTAMP AS created_at,
+                      '{{ _explore._name }}' AS explore
+                      ) AS S
                 ON T.model_name = S.model_name
                 WHEN MATCHED THEN
                   UPDATE SET number_of_clusters=S.number_of_clusters
                       , item_id=S.item_id
                       , features=S.features
                       , created_at=S.created_at
+                      , explore=S.explore
                 WHEN NOT MATCHED THEN
-                  INSERT (model_name, number_of_clusters, item_id, features, created_at)
-                  VALUES(model_name, number_of_clusters, item_id, features, created_at)
+                  INSERT (model_name, number_of_clusters, item_id, features, created_at, explore)
+                  VALUES(model_name, number_of_clusters, item_id, features, created_at, explore)
       ;;
     }
   }
