@@ -165,5 +165,86 @@ view: +input_data {
     type: count
   }
 
+  measure: female_count {
+    type: count
+    hidden: yes
+    filters: [gender: "Female"]
+  }
+
+  measure: count_with_4p_orders {
+    type: count
+    hidden: yes
+    filters: [has_4p_orders: "Yes"]
+  }
+
+  measure: count_with_traffic_source_search {
+    type: count
+    hidden: yes
+    filters: [traffic_source: "Search"]
+  }
+
+  measure: count_new_customer {
+    type: count
+    hidden: yes
+    filters: [is_new_customer: "Yes"]
+  }
+
+  measure: avg_lifetime_orders {
+    type: average
+    sql: ${lifetime_orders} ;;
+  }
+
+  measure: avg_lifetime_revenue {
+    type: average
+    sql: ${lifetime_revenue} ;;
+  }
+
+  measure: avg_age {
+    type: average
+    sql: ${age} ;;
+  }
+  measure: avg_days_since_latest_order {
+    type: average
+    sql: ${days_since_latest_order} ;;
+  }
+
+  measure: avg_days_since_first_order {
+    type: average
+    sql: ${days_since_first_order} ;;
+  }
+
+  measure: avg_days_as_customer {
+    type: average
+    sql: ${days_since_first_order} ;;
+  }
+  measure: avg_months_shopped {
+    type: average
+    sql: ${number_of_distinct_months_with_orders} ;;
+  }
+
+  measure: avg_trip_revenue {
+    type: average
+    sql: ${avg_order_revenue} ;;
+  }
+
+  measure: pct_female {
+    type: number
+    sql: safe_divide(${female_count},${count}) ;;
+  }
+
+  measure: pct_with_4p_orders {
+    type: number
+    sql: safe_divide(${count_with_4p_orders},${count}) ;;
+  }
+
+  measure: pct_traffic_source_search {
+    type: number
+    sql: safe_divide(${count_with_traffic_source_search},${count}) ;;
+  }
+
+  measure: pct_new_customer {
+    type: number
+    sql: safe_divide(${count_new_customer},${count}) ;;
+  }
 
 }
