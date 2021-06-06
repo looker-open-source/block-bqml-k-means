@@ -1,6 +1,6 @@
 ## About this LookML Block
 
-Clustering is a common exploratory data analysis technique used to gain a better understanding of your data by grouping observations (e.g., customers, stores, products, transactions, etc...) into "like" segments or clusters based on a collection of behaviors and attributes known about each observation. For example, you may want to cluster retail stores based on region, annual profit, square footage, total sales, or top selling brands in each. Or you may want to segment your customers based on Recency, Frequency or Monetary metrics.
+Clustering is a common exploratory data analysis technique used to gain a better understanding of your data by grouping observations (e.g., customers, stores, products, transactions, etc...) into "like" segments or clusters based on a collection of behaviors and attributes known about each observation. For example, you may want to cluster retail stores based on region, annual profit, total sales, or top selling brands in each. Or you may want to segment your customers based on Recency, Frequency or Monetary metrics.
 
 K-means uses a distance alogirthm to:
 * Divide data into similar clusters or segments
@@ -31,6 +31,7 @@ With this block added to a compatible Explore, business users can build and eval
 ## Customizations
 
 ## Execution Steps to Create and Evaluate K-means models
+See [*QUICK_START_TO_CREATE_KMEANS_MODEL*](/QUICK_START_TO_CREATE_KMEANS_MODEL.md) document for detailed steps to create and evaluate K-means model in Looker UI
 
 ## Resources
 
