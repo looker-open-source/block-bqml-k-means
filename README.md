@@ -1,3 +1,7 @@
+
+# Read Me for LookML Developers
+
+
 ## About this LookML Block
 
 Clustering is a common exploratory data analysis technique used to gain a better understanding of your data by grouping observations (e.g., customers, stores, products, transactions, etc...) into "like" segments or clusters based on a collection of behaviors and attributes known about each observation. For example, you may want to cluster retail stores based on region, annual profit, total sales, or top selling brands in each. Or you may want to segment your customers based on Recency, Frequency or Monetary metrics.
