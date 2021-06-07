@@ -3,15 +3,19 @@ include: "/views/input_data.view"
 ### for this example, data is pulled from the BigQuery Public dataset for London Bicycle Hires
 ### The London Bicycle Hires data contains the number of hires of London's Santander Cycle Hire Scheme from 2015 to mid-June 2017
 
-### bike stations will be clustered based on the following attributes calculated for year 2015:
+###############################################################################################################################################
+###     Note: Because the London Bicycle Hires dataset is stored in the EU multi-region location, your dataset must also reside in the EU.  ###
+###############################################################################################################################################
+
+### bike stations will be clustered based on the following attributes calculated for 1/1/2015 to 1/1/2016:
 #     Avg Duration of rentals
 #     Number of trips per day
-#     Max Distance from city center
+#     Station Distance from city center
 #
 
 ### additional bike station metrics will be used for profiling:
-#    Percent of Trips during Weekend (Sat - Sun)
-#    Percent of Trips Roundtrip (i.e, start/end at same station)
+#     Percent of Trips during Weekend (Sat - Sun)
+#     Percent of Trips Roundtrip (i.e, start/end at same station)
 
 ### This example uses billable components of Cloud Platform, including:
 #     BigQuery
