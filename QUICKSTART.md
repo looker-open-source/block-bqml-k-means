@@ -117,7 +117,11 @@ With the dimensions and measures in this section, you can generate a profile of 
 
   > You have many different options for profiling clusters, The example below highlights which features are well below or well above the overall average.
 
-  > For the **Trip Segmentation** example, enter model name (trips\_by\_fare\_duration\_distance) in **\[2\] BQML: Name Your Model**. Add dimension **Feature and Category** as rows in the data grid and add **Nearest Centroid Label with Pct of Total** as PIVOT column. The measure **Value** is uniquely defined to display the **Centroid Value** while actually representing the **Pct DifF from Weighted Average**. Designing the metric this way will allow you to use the pct difference value to conditionally format a table visualization to highlight the differences from the weighted average. Click RUN to generate results and we'll walk through steps to format the visualization.
+  > For the **Trip Segmentation** example, enter model name (trips\_by\_fare\_duration\_distance) in **\[2\] BQML: Name Your Model**. Add dimension **Feature and Category** as rows in the data grid and add **Nearest Centroid Label with Pct of Total** as PIVOT column.
+
+  > The measure **Value** is uniquely defined to display the **Centroid Value** while actually representing the **Pct DifF from Weighted Average**. Designing the metric this way will allow you to conditionally format the table and highlight the differences from the weighted average.
+
+  > Click RUN to generate results and we'll walk through steps to format the visualization.
 
 ---
   In Visualization Pane:
