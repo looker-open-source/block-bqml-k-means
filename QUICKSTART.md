@@ -60,6 +60,7 @@ The dataset contains:
 | Fare Amount | amount of fare excluding tip, toll and other fees |
 
 The dataset also contains a few other dimensions we will use for profiling our resulting clusters but will not use them to define the basis of the cluster for this example.
+
 | Measures  | Description |
 | ------------- | ------------- |
 | Pct Trips Weekend | percent of trips during the weekend (Sat - Sun) |
@@ -71,13 +72,13 @@ These dimensions will be available for selection in step **\[3\] BQML: Select Tr
 
 With the filter-only field **BQML Model Name (REQUIRED)**, enter a unique name to create a new BQML model or select an existing model to use in your analysis. Name must not include spaces. Note, if you enter a model name which already exists and run *create model* the existing model will be replaced.
 
-  > For the **Trip Segmentation** example, enter unique name (e.g. taxi\_by\_fare,\_duration_minutes,\_distance)
+  > For the **Trip Segmentation** example, enter unique name (e.g. trips\_by\_fare\_duration\_distance)
 
 ## **\[3\] BQML: Select Training Data**  **REQUIRED to create model**
 
 Add **Select Features (REQUIRED)** to the filter pane. Leave the default filter condition of *is equal to* for string values. Click in the empty string field and a list of the dimensions found in **\[1\] BQML: Input Data** will be shown. You can select one or more dimensions. Note, be sure to select meaningful attributes. Fields with random values like ID fields should be avoided. BigQuery ML will automatically handle categorical fields (e.g., gender, region) and also normalize across the inputs so that attributes with widely different scales (like Sales and Age) are treated equally.
 
-  > For the **Trip Segmentation** example, select these three station attributes: *distance*, *duration_minutes*, *fare_amount*
+  > For the **Trip Segmentation** example, select these three trip attributes: *distance*, *duration_minutes*, *fare_amount*
 
 ## **\[4\] BQML: Set Model Parameters**
 
@@ -89,4 +90,21 @@ This is an *optional* parameter. If left blank or not included, BigQuery ML will
 
 ## **\[5\] BQML: Create Model**
 
-To submit any query in Looker, you must include at least one dimension in the data pane. So to execute the segmentation model, add the **Train Model (REQUIRED)** dimension to the data pane. Once the dimension is added, you will be able to click the RUN button in top right and model will be built in BigQuery ML. Once segmentation model has been created, the query will return a value of **Complete** for the **Train Model** dimension. The amount of time it takes to
+To submit any query in Looker, you must include at least one dimension in the data pane. So to create the segmentation model, add the **Train Model (REQUIRED)** dimension to the data pane. Once the dimension is added, you will be able to click the RUN button in top right and model will be built in BigQuery ML. Once segmentation model has been created, the query will return a value of **Complete** for the **Train Model** dimension. The amount of time it takes to create the model will likely be at least a few minutes. The total time can vary depending size of the dataset and number of dimensions selected for clustering.
+
+If you select to create a model which already exists, the model will be replaced. After creating the model, you will want to remove the **Train Model (REQUIRED)** dimension from the data pane to avoid inadvertantly creating the model again.
+
+## **\[6\] BQML: Evaluation Metrics**
+
+The goal of K-means clustering is to group observations with similiar characteristics or behaviors. Ideally members of a cluster are tightly grouped around the centroid (distance to cluster center is minimize) while clusters are distinctive and far apart (distance between cluster centers is maximized). To evaluate how well the model named in step **\[2\] BQML: Name Your Model** acheives these objectives, add the following dimensions to the data grid and select RUN:
+
+| Dimension  | Description |
+| ------------- | ------------- |
+| **Davies Bouldin Index** | The lower the value, the better the separation of the centroids and the 'tightness' inside the centroids. If creating multiple versions of a model with different number of clusters, the version which minimizes the Davies-Boudin Index is considered best. |
+| **Mean Squared Distance** | The lower the value, the better the 'tightness' inside centroids |
+
+Determining the optimum number of clusters (the "k" in K-means) depends on your use case. Sometimes the correct number will be easy to identify. Other times you will want to experiment with multiple versions of the model using different numbers of clusters. Compare the Mean Square Distance and Davies Bouldin Index across different versions of the model (e.g., how does 3-clusters compare to 4-, 5-, 6-clusters). The lowest values usually indicates the solution which performs best in terms of grouping your data while minimizing distance within each cluster.
+
+## **\[7\] BQML: Predictions**
+
+This step ...
