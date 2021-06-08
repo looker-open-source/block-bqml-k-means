@@ -4,7 +4,7 @@ view: field_suggestions {
           FROM (
                 SELECT * FROM ${input_data.SQL_TABLE_NAME}
                 LIMIT 1) t,
-          UNNEST(SPLIT(REGEXP_REPLACE(to_json_string(t), r'{|}', ''))) pair
+          UNNEST(SPLIT(REGEXP_REPLACE(to_json_string(t), r'{|}', ''), ',"')) pair
     ;;
   }
 
