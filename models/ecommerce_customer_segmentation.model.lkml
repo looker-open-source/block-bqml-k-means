@@ -16,7 +16,7 @@ explore: ecommerce_customer_segmentation {
   }
 
   query: create_model {
-    label: "Step 1: Create a Model"
+    label: "Step 1: Create Model"
     description: "Important: Provide a unique name for your ML model"
     dimensions: [k_means_create_model.train_model]
     filters: [model_name.select_model_name: ""
@@ -24,7 +24,7 @@ explore: ecommerce_customer_segmentation {
   }
 
   query: evaluate_model {
-    label: "Step 2: Evaluate a Model"
+    label: "Step 2: Evaluate Model"
     description: "Important: Specify the model name from step 1"
     dimensions: [k_means_evaluate.davies_bouldin_index, k_means_evaluate.mean_squared_distance]
     filters: [model_name.select_model_name: ""]
