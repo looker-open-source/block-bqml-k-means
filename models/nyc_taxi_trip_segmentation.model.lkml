@@ -3,7 +3,7 @@ connection: "@{database_connection}"
 include: "/explores/bqml_k_means.explore"
 include: "/use_case_refinements/nyc_taxi_trip_segmentation/*"
 
-explore: london_bicycle_station_segmentation {
+explore: nyc_taxi_trip_segmentation {
   label: "BQML K-Means: NYC Taxi Trip Segmentation"
   description: "Use this Explore to create BQML K-means Clustering models for NYC taxi trips BigQuery's Public dataset for NYC Taxi Trips."
 

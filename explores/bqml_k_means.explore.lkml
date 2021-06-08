@@ -10,6 +10,11 @@ explore: bqml_k_means {
     filters: [model_name.select_model_name: ""]
   }
 
+  join: input_data {
+    type: cross
+    relationship: many_to_many
+  }
+
   join: k_means_training_data {
     sql:  ;;
     relationship: one_to_one
@@ -21,11 +26,6 @@ explore: bqml_k_means {
   }
 
   join: k_means_evaluate {
-    type: cross
-    relationship: many_to_many
-  }
-
-  join: input_data {
     type: cross
     relationship: many_to_many
   }

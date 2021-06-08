@@ -14,4 +14,28 @@ explore: ecommerce_customer_segmentation {
     relationship: one_to_one
     sql_on: ${input_data.user_id} = ${k_means_predict.item_id} ;;
   }
+
+  query: create_model {
+    label: "Step 1: Create a Model"
+    description: "Important: Provide a unique name for your ML model"
+    dimensions: [k_means_create_model.train_model]
+    filters: [model_name.select_model_name: ""
+              , k_means_training_data.select_features: "\"days_since_latest_order\",\"lifetime_orders\",\"lifetime_revenue\""]
+  }
+
+  query: evaluate_model {
+    label: "Step 2: Evaluate a Model"
+    description: "Important: Specify the model name from step 1"
+    dimensions: [k_means_evaluate.davies_bouldin_index, k_means_evaluate.mean_squared_distance]
+    filters: [model_name.select_model_name: ""]
+  }
+
+  query: get_predictions {
+    label: "Step 3: Get Predictions"
+    description: "Important: Specify the model name from step 1"
+    dimensions: [k_means_predict.centroid_id]
+    measures: [k_means_predict.item_count, k_means_predict.item_count_percent_of_total, k_means_predict.total_item_count]
+    filters: [model_name.select_model_name: ""]
+    sorts: [k_means_predict.centroid_id: asc]
+  }
 }
