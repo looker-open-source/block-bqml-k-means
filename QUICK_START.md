@@ -41,16 +41,15 @@ To evaluate a model which has already been created, you must specifiy name of th
 | Step  | Description |
 | ------------- | ------------- |
 | **\[6\] BQML: Evaluation Metrics**  | The goal of K-means clustering is to find segments or clusters in which members of a segment are as similar as possible while each segment is as distinctive as possible from the other segments. These evaluation metrics produced by the BigQuery ML modeling process are indicators of how well these goals are achieved (the lower the number, the better the solution).    |
-| **\[7\] BQML: Predictions** | This step uses the specificed model to predict the distance of each observation to each cluster centroid. Each observation is assigned to its *nearest centroid*  |
+| **\[7\] BQML: Predictions** | This step uses the specificed model to predict the distance of each observation to each cluster centroid. Each observation is assigned to its *nearest centroid*.  |
 | **\[8\] BQML: Centroids** | Uses the centroid means produced by BigQuery ML K-means modeling algorithm to generate a profile of each cluster (i.e., what are the main features/attributes driving the cluster). Also include specially designed metrics to allow business analyst to build a table visualization comparing each cluster to the overall mean of the training dataset.    |
 
 
 ## **\[1\] BQML: Input Data**
 
-The proper preparation of the input dataset is critical to the success of K-means clustering. The LookML developer who sets of the BQML K-means explore will need to prepare a dataset for the observations of interest with meaningful attributes/behaviors that can be used to group similar observations into clusters.
+The proper preparation of the input dataset is critical to the success of K-means clustering. The LookML developer who sets up the BQML K-means explore will need to prepare a dataset for the observations of interest with meaningful attributes/behaviors which can be used to group similar observations into clusters (one row for each observation to be clusterd).
 
 To illustrate, we will look at the example Explore **BQML K-Means: NYC Taxi Trip Segmentation** included with the block. We will group *trips* based on the following attributes:
-The dataset contains:
 
 | Dimension  | Description |
 | ------------- | ------------- |
@@ -59,49 +58,55 @@ The dataset contains:
 | Distance | distance of trip |
 | Fare Amount | amount of fare excluding tip, toll and other fees |
 
-The dataset also contains a few other dimensions we will use for profiling our resulting clusters but will not use them to define the basis of the cluster for this example.
+The dataset also contains a few other dimensions we will use for profiling our resulting clusters, but we will not use them to define the basis of the cluster for this example.
 
 | Measures  | Description |
 | ------------- | ------------- |
 | Pct Trips Weekend | percent of trips during the weekend (Sat - Sun) |
 | Pct Trips 12:00AM to 6:00AM | percent of trips between 12:00AM and 6:00AM |
 
-These dimensions will be available for selection in step **\[3\] BQML: Select Training Data**. Additional measures like *Trip Count* or *Avg Duration Minutes* are avaiable profiling clusters.
+These dimensions will be available for selection in step **\[3\] BQML: Select Training Data**. Additional measures like *Trip Count* or *Avg Duration Minutes* are avaiable for profiling clusters.
 
-## **\[2\] BQML: Name Your Model**  **REQUIRED**
+>
+>Note, you can filter the input dataset as necessary to review and understand your data or to build visualizations; however, for modeling purposes **all** rows of the input dataset are included when creating a segmentation model. If you need to alter the input dataset (e.g., remove outliers, add new dimensions), contact a LookML Developer for assistance in refining the *input_data* view to meet your use case.
+>
 
-With the filter-only field **BQML Model Name (REQUIRED)**, enter a unique name to create a new BQML model or select an existing model to use in your analysis. Name must not include spaces. Note, if you enter a model name which already exists and run *create model* the existing model will be replaced.
+
+## **\[2\] BQML: Name Your Model**  (*REQUIRED*)
+
+For the required filter-only field **BQML Model Name (REQUIRED)**, enter a unique name to create a new BQML model or select an existing model to use in your analysis. Name must not include spaces. Note, if you enter a model name which already exists and run *create model* the existing model will be replaced. Clicking into the filter will generate a list of existing models created for the given explore if any.
 
   > For the **Trip Segmentation** example, enter unique name (e.g. trips\_by\_fare\_duration\_distance)
 
-## **\[3\] BQML: Select Training Data**  **REQUIRED to create model**
+
+## **\[3\] BQML: Select Training Data**  (*REQUIRED to create model*)
 
 Add **Select Features (REQUIRED)** to the filter pane. Leave the default filter condition of *is equal to* for string values. Click in the empty string field and a list of the dimensions found in **\[1\] BQML: Input Data** will be shown. You can select one or more dimensions. Note, be sure to select meaningful attributes. Fields with random values like ID fields should be avoided. BigQuery ML will automatically handle categorical fields (e.g., gender, region) and also normalize across the inputs so that attributes with widely different scales (like Sales and Age) are treated equally.
 
-  > For the **Trip Segmentation** example, select these three trip attributes: *distance*, *duration_minutes*, *fare_amount*
+  > For the **Trip Segmentation** example, select these three trip attributes: *trip_distance*, *duration_minutes*, *fare_amount*
 
 ## **\[4\] BQML: Set Model Parameters**
 
-If you would like to specify the number of clusters to generate, add **Select Number of Clusters (optional)** to the filter pane and enter a values between 2 and 100. The optimal number of clusters depends on many factors--the size of the data, the number and type of attributes you are using as inputs and even how you intend to use the segments. You should consider running several iterations and compare the solutions. For example, how does 3 segments compare to 5 segments? What happens if you increase to 10 segments--are each of the individual segments of meaningful size and actionable? We will discuss ways to determine the optimal number of clusters in more detail in step **\[6\] BQML: Evaluation Metrics**.
+If you would like to specify the number of clusters to generate, add **Select Number of Clusters (optional)** to the filter pane and enter a value between 2 and 100. The optimal number of clusters depends on many factors--the size of the data, the number and type of attributes you are using as inputs and even how you intend to use the segments. You should consider running several iterations and comparing the solutions. For example, how does 3 segments compare to 5 segments? What happens if you increase to 10 segments--are each of the individual segments of meaningful size and actionable? We will discuss ways to determine the optimal number of clusters in more detail in step **\[6\] BQML: Evaluation Metrics**.
 
 This is an *optional* parameter. If left blank or not included, BigQuery ML will select a default size based on the number of rows in your training dataset.
 
   > For the **Trip Segmentation** example, add to the filter pane and type in the value 4.
 
-## **\[5\] BQML: Create Model**
+## **\[5\] BQML: Create Model** (*REQUIRED to create model*)
 
 To submit any query in Looker, you must include at least one dimension in the data pane. So to create the segmentation model, add the **Train Model (REQUIRED)** dimension to the data pane. Once the dimension is added, you will be able to click the RUN button in top right and model will be built in BigQuery ML. Once segmentation model has been created, the query will return a value of **Complete** for the **Train Model** dimension. The amount of time it takes to create the model will likely be at least a few minutes. The total time can vary depending size of the dataset and number of dimensions selected for clustering.
 
-If you select to create a model which already exists, the model will be replaced. After creating the model, you will want to remove the **Train Model (REQUIRED)** dimension from the data pane to avoid inadvertantly creating the model again.
+If you select a model name which already exists, the model will be replaced with the latest iteration of the model creation step. After creating the model, you will want to remove the **Train Model (REQUIRED)** dimension from the data pane to avoid inadvertantly creating the model again.
 
 ## **\[6\] BQML: Evaluation Metrics**
 
-The goal of K-means clustering is to group observations with similiar characteristics or behaviors. Ideally members of a cluster are tightly grouped around the centroid (distance to cluster center is minimize) while clusters are distinctive and far apart (distance between cluster centers is maximized). To evaluate how well the model named in step **\[2\] BQML: Name Your Model** acheives these objectives, add the following dimensions to the data grid and select RUN:
+The goal of K-means clustering is to group observations with similiar characteristics or behaviors. Ideally members of a cluster are tightly grouped around the centroid (distance to cluster center is minimized) while clusters are distinctive and far apart (distance between cluster centers is maximized). To evaluate how well the model named in step **\[2\] BQML: Name Your Model** acheives these objectives, add the following dimensions to the data grid and select RUN:
 
 | Dimension  | Description |
 | ------------- | ------------- |
 | **Davies Bouldin Index** | The lower the value, the better the separation of the centroids and the 'tightness' inside the centroids. If creating multiple versions of a model with different number of clusters, the version which minimizes the Davies-Boudin Index is considered best. |
-| **Mean Squared Distance** | The lower the value, the better the 'tightness' inside centroids |
+| **Mean Squared Distance** | The lower the value, the better the 'tightness' inside centroids. |
 
 Determining the optimum number of clusters (the "k" in K-means) depends on your use case. Sometimes the correct number will be easy to identify. Other times you will want to experiment with multiple versions of the model using different numbers of clusters. Compare the Mean Square Distance and Davies Bouldin Index across different versions of the model (e.g., how does 3-clusters compare to 4-, 5-, 6-clusters). The lowest values usually indicates the solution which performs best in terms of grouping your data while minimizing distance within each cluster.
 
@@ -113,26 +118,24 @@ Each observation is assigned to its **Nearest Centroid**. Expand the group **Cen
 
 ## **\[8\] BQML: Centroids**
 
-With the dimensions and measures in this section, you can generate a profile of each cluster by the attributes/behaviors (labeled **Feature and Category**) selected for the model in step **\[3\] BQML: Select Training Data**. Uses the nearest centroid means (labeled **Value**) produced by BigQuery ML K-means. Provides Feature Category averages for each of the K clusters as well as an overall weighted average for the training data (cluster 0). By including the overall weighted average, you can compare each cluster not only to each other but to the overall average.
+With the dimensions and measures in this section, you can generate a profile of each cluster by the attributes/behaviors (labeled **Feature and Category**) selected for the model in step **\[3\] BQML: Select Training Data**. Uses the nearest centroid means (labeled **Value**) produced by BigQuery ML K-means algorithm. Provides Feature Category normalized averages for each of the K clusters as well as an overall weighted average for the training data (cluster 0). By including the overall weighted average, you can compare each cluster not only to each other but also to the overall average.
 
   > You have many different options for profiling clusters, The example below highlights which features are well below or well above the overall average.
 
   > For the **Trip Segmentation** example, enter model name (trips\_by\_fare\_duration\_distance) in **\[2\] BQML: Name Your Model**. Add dimension **Feature and Category** as rows in the data grid and add **Nearest Centroid Label with Pct of Total** as PIVOT column.
 
-  > The measure **Value** is uniquely defined to display the **Centroid Value** while actually representing the **Pct DifF from Weighted Average**. Designing the metric this way will allow you to conditionally format the table and highlight the differences from the weighted average.
+  > The measure **Value** is uniquely defined to display the **Centroid Value** while actually representing the **Pct Diff From Weighted Average**. Designing the metric this way will allow you to conditionally format the table and highlight the differences from the weighted average. To see and use the actual centroid value in a chart, you can select the measure **Nearest Centroid Value** or dimension **Value**.
 
   > Click RUN to generate results and we'll walk through steps to format the visualization.
 
----
-  In Visualization Pane:
+  > In Visualization Pane:
 
-   1. select Table type visualization if not already selected
-   2. Click Edit, Select *Series* tab and **Uncheck** Cell Visualiztion under **Value** if turned on by default
-   3. Select *Formatting* tab, Turn On **Enable Conditional Formatting**
-   4. Add a **Conditional Formatting Rule**
-       - along a scale
-       - apply to all numeric fields
-       - set Palette to a diverging color range (edit to set middle color to white)
-       - uncheck Mirror Range Around Center Value
-       - set Range: start = -1 , center = 0 , end = 2 (a value of 2 means the cluster centroid is more than 2 times weighted average)
----
+  > 1. select Table type visualization if not already selected
+  > 2. Click *Edit*, Select *Series* tab and *Uncheck* Cell Visualiztion under **Value** if turned on by default
+  > 3. Select *Formatting* tab, Turn On *Enable Conditional Formatting*
+  > 4. Add a *Conditional Formatting Rule*
+  >     - along a scale
+  >     - apply to all numeric fields
+  >     - set Palette to a diverging color range (consider setting middle color to white so values which do not differ much from average are not highlighted)
+  >     - uncheck Mirror Range Around Center Value
+  >     - set Range: start = -1 , center = 0 , end = 2 (a value of 2 means the feature average for cluster is more than 2 times the overall weighted average)
