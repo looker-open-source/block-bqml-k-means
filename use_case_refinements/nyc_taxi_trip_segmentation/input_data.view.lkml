@@ -43,6 +43,7 @@ view: +input_data {
             AND dropoff_latitude > 37
             AND dropoff_latitude < 45
             AND passenger_count > 0
+            and DATETIME_DIFF(dropoff_datetime, pickup_datetime, minute) < 200
 
     ;;
   }
@@ -58,12 +59,12 @@ view: +input_data {
     sql: ${TABLE}.vendor_id ;;
   }
 
-  dimension_group: pickup_datetime {
+  dimension_group: pickup {
     type: time
     sql: ${TABLE}.pickup_datetime ;;
   }
 
-  dimension_group: dropoff_datetime {
+  dimension_group: dropoff {
     type: time
     sql: ${TABLE}.dropoff_datetime ;;
   }
@@ -192,6 +193,21 @@ view: +input_data {
     type: count
   }
 
+  measure: weekend_trip_count {
+    label: "COUNT of Trips during Weekend (Fri / Sat)"
+    group_label: "COUNTS"
+    hidden: yes
+    type: count
+    filters: [weekday_or_weekend: "weekend"]
+  }
+
+  measure: after_midnight_trip_count {
+    label: "COUNT of Trips between 12AM to 6AM"
+    group_label: "COUNTS"
+    hidden: yes
+    type: count
+    filters: [hour_of_day_group: "12AM to 6AM"]
+  }
 
   # SUM MEASURES
 
@@ -266,7 +282,6 @@ view: +input_data {
     value_format_name: usd
   }
 
-
   # AVERAGE MEASURES
 
   measure: passenger_count_average {
@@ -340,4 +355,30 @@ view: +input_data {
     sql: ${total_amount} ;;
     value_format_name: usd
   }
+
+  measure: duration_minutes_average {
+    label: "AVG of Duration (minutes)"
+    group_label: "AVERAGES"
+    type: average
+    sql: ${duration_minutes} ;;
+    value_format_name: decimal_1
+  }
+
+  # PCT OF TOTAL MEASURES
+  measure: pct_trips_weekend {
+    label: "Percent of Trips during Weekend"
+    group_label: "PCT OF TOTAL"
+    type: number
+    sql: safe_divide(${weekend_trip_count},${trip_count}) ;;
+    value_format_name: percent_1
+  }
+
+  measure: pct_trips_after_midnight {
+    label: "Percent of Trips between 12AM and 6AM"
+    group_label: "PCT OF TOTAL"
+    type: number
+    sql: safe_divide(${after_midnight_trip_count},${trip_count}) ;;
+    value_format_name: percent_1
+  }
+
 }
