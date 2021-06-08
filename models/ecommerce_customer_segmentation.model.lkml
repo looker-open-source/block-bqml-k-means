@@ -16,7 +16,7 @@ explore: ecommerce_customer_segmentation {
   }
 
   query: create_model {
-    label: "Step 1: Create Model"
+    label: "Create Model"
     description: "Important: Provide a unique name for your ML model"
     dimensions: [k_means_create_model.train_model]
     filters: [model_name.select_model_name: ""
@@ -24,14 +24,14 @@ explore: ecommerce_customer_segmentation {
   }
 
   query: evaluate_model {
-    label: "Step 2: Evaluate Model"
+    label: "Evaluate Model"
     description: "Important: Specify the model name from step 1"
     dimensions: [k_means_evaluate.davies_bouldin_index, k_means_evaluate.mean_squared_distance]
     filters: [model_name.select_model_name: ""]
   }
 
   query: get_predictions {
-    label: "Step 3: Get Predictions"
+    label: "Get Predictions"
     description: "Important: Specify the model name from step 1"
     dimensions: [k_means_predict.centroid_id]
     measures: [k_means_predict.item_count, k_means_predict.item_count_percent_of_total, k_means_predict.total_item_count]
