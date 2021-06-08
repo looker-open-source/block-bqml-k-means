@@ -64,17 +64,3 @@ explore: bqml_k_means {
   }
 
 }
-
-#### quick start queries
-explore: +bqml_k_means {
-  query: Create_Kmeans_Model {
-    dimensions: [k_means_create_model.train_model]
-    filters: [
-      k_means_create_model.choose_number_of_clusters: "4",
-      k_means_training_data.select_features: "",
-      model_name.select_model_name: ""
-    ]
-
-  }
-
-}

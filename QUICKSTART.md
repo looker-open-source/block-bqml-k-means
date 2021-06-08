@@ -42,7 +42,7 @@ To evaluate a model which has already been created, you must specifiy name of th
 | ------------- | ------------- |
 | **\[6\] BQML: Evaluation Metrics**  | The goal of K-means clustering is to find segments or clusters in which members of a segment are as similar as possible while each segment is as distinctive as possible from the other segments. These evaluation metrics produced by the BigQuery ML modeling process are indicators of how well these goals are achieved (the lower the number, the better the solution).    |
 | **\[7\] BQML: Predictions** | This step uses the specificed model to predict the distance of each observation to each cluster centroid. Each observation is assigned to its *nearest centroid*  |
-| **\[8\] BQML: Profiles** | Uses the centroid means produced by BigQuery ML K-means modeling process to generate a profile of each cluster (i.e., what are the main features/attributes driving the cluster). Also include specially designed metrics to allow business analyst to build a table visualization comparing each cluster to the overall mean of the training dataset.    |
+| **\[8\] BQML: Centroids** | Uses the centroid means produced by BigQuery ML K-means modeling algorithm to generate a profile of each cluster (i.e., what are the main features/attributes driving the cluster). Also include specially designed metrics to allow business analyst to build a table visualization comparing each cluster to the overall mean of the training dataset.    |
 
 
 ## **\[1\] BQML: Input Data**
@@ -82,7 +82,7 @@ Add **Select Features (REQUIRED)** to the filter pane. Leave the default filter 
 
 ## **\[4\] BQML: Set Model Parameters**
 
-If you would like to specify the number of clusters to generate, add **Select Number of Clusters (optional)** to the filter pane. The optimal number of clusters depends on many factors--the size of the data, the number and type of attributes you are using as inputs and even how you intend to use the segments. You should consider running several iterations and compare the solutions. For example, how does 3 segments compare to 5 segments? What happens if you increase to 10 segments--are each of the individual segments of meaningful size and actionable? We will discuss ways to determine the optimal number of clusters in more detail in step **\[6\] BQML: Evaluation Metrics**.
+If you would like to specify the number of clusters to generate, add **Select Number of Clusters (optional)** to the filter pane and enter a values between 2 and 100. The optimal number of clusters depends on many factors--the size of the data, the number and type of attributes you are using as inputs and even how you intend to use the segments. You should consider running several iterations and compare the solutions. For example, how does 3 segments compare to 5 segments? What happens if you increase to 10 segments--are each of the individual segments of meaningful size and actionable? We will discuss ways to determine the optimal number of clusters in more detail in step **\[6\] BQML: Evaluation Metrics**.
 
 This is an *optional* parameter. If left blank or not included, BigQuery ML will select a default size based on the number of rows in your training dataset.
 
@@ -107,4 +107,32 @@ Determining the optimum number of clusters (the "k" in K-means) depends on your 
 
 ## **\[7\] BQML: Predictions**
 
-This step ...
+Each observation is assigned to its **Nearest Centroid**. Expand the group **Centroid Distances** to see the standardized **Distance** between each observation and each cluster labeled **Centroid**. You will be able to build variety of visualizations from this section and even incorporate dimensions/metrics from **\[1\] BQML: Input Data** to generate cluster profiles.
+
+  > For the **Trip Segmentation** example, enter model name (trips\_by\_fare\_duration\_distance) in **\[2\] BQML: Name Your Model**. Add dimension **Nearest Centroid** and measures **Count of Observations** and **Percent of Total Observations** to the data grid and click RUN to generate sizes of each cluster.
+
+## **\[8\] BQML: Centroids**
+
+With the dimensions and measures in this section, you can generate a profile of each cluster by the attributes/behaviors (labeled **Feature and Category**) selected for the model in step **\[3\] BQML: Select Training Data**. Uses the nearest centroid means (labeled **Value**) produced by BigQuery ML K-means. Provides Feature Category averages for each of the K clusters as well as an overall weighted average for the training data (cluster 0). By including the overall weighted average, you can compare each cluster not only to each other but to the overall average.
+
+  > You have many different options for profiling clusters, The example below highlights which features are well below or well above the overall average.
+
+  > For the **Trip Segmentation** example, enter model name (trips\_by\_fare\_duration\_distance) in **\[2\] BQML: Name Your Model**. Add dimension **Feature and Category** as rows in the data grid and add **Nearest Centroid Label with Pct of Total** as PIVOT column.
+
+  > The measure **Value** is uniquely defined to display the **Centroid Value** while actually representing the **Pct DifF from Weighted Average**. Designing the metric this way will allow you to conditionally format the table and highlight the differences from the weighted average.
+
+  > Click RUN to generate results and we'll walk through steps to format the visualization.
+
+---
+  In Visualization Pane:
+
+   1. select Table type visualization if not already selected
+   2. Click Edit, Select *Series* tab and **Uncheck** Cell Visualiztion under **Value** if turned on by default
+   3. Select *Formatting* tab, Turn On **Enable Conditional Formatting**
+   4. Add a **Conditional Formatting Rule**
+       - along a scale
+       - apply to all numeric fields
+       - set Palette to a diverging color range (edit to set middle color to white)
+       - uncheck Mirror Range Around Center Value
+       - set Range: start = -1 , center = 0 , end = 2 (a value of 2 means the cluster centroid is more than 2 times weighted average)
+---
