@@ -62,4 +62,19 @@ explore: bqml_k_means {
     sql_on: ${k_means_centroids.centroid_id} = ${k_means_centroids_indexed_values.centroid_id} AND ${categorical_value.feature_category} = ${k_means_centroids_indexed_values.feature_category} ;;
     relationship: one_to_one
   }
+
+}
+
+#### quick start queries
+explore: +bqml_k_means {
+  query: Create_Kmeans_Model {
+    dimensions: [k_means_create_model.train_model]
+    filters: [
+      k_means_create_model.choose_number_of_clusters: "4",
+      k_means_training_data.select_features: "",
+      model_name.select_model_name: ""
+    ]
+
+  }
+
 }
