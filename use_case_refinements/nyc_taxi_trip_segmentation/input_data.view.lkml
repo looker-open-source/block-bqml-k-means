@@ -93,7 +93,6 @@ view: +input_data {
     sql: ${TABLE}.hour_of_day_group ;;
   }
 
-
   dimension: rate_code {
     type: string
     sql: ${TABLE}.rate_code ;;
@@ -265,5 +264,4 @@ view: +input_data {
     sql: safe_divide(${after_midnight_trip_count},${trip_count}) ;;
     value_format_name: percent_1
   }
-
 }
