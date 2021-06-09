@@ -63,11 +63,14 @@ This block comes with a [Quick Start Guide for Business Users](/projects/bqml_k_
 
 BigQuery ML requires that the target dataset for storing ML models be in the same location as the data used to
 train the model. This block's example Explores use BiqQuery public data stored in the `US` multi-region location.
-Therefore, to use the block's example explores, your BiqQuery database connection must have a dataset for Looker
+Therefore, to use the block's example Explores, your BiqQuery database connection must have a dataset for Looker
 PDTs located in the `US` region. If you would like to use the block with data stored in other regions, simply
-create another BigQuery connection in Looker with a Looker PDT dataset located in that region. See
-[BigQuery ML Locations](https://cloud.google.com/bigquery-ml/docs/locations) for more
-details.
+create another BigQuery connection in Looker with a Looker PDT dataset located in that region.
+
+When using multiple BigQuery database connections with this block, it's recommended to use the same dataset
+name for Looker PDTs in different BigQuery projects. This will prevent Looker PDT dataset references throughout
+the block from breaking.
+See [BigQuery ML Locations](https://cloud.google.com/bigquery-ml/docs/locations) for more details.
 
 
 ## Resources
