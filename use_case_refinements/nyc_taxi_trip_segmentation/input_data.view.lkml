@@ -19,6 +19,12 @@ view: +input_data {
                   when EXTRACT(hour FROM pickup_datetime) between 12 and 17 then "12PM to 6PM"
                   when EXTRACT(hour FROM pickup_datetime) between 18 and 23 then "6PM to 12AM"
                   end as hour_of_day_group
+              , case when
+                  EXTRACT(hour FROM pickup_datetime) between 0 and 5 then 1
+                  when EXTRACT(hour FROM pickup_datetime) between 6 and 11 then 2
+                  when EXTRACT(hour FROM pickup_datetime) between 12 and 17 then 3
+                  when EXTRACT(hour FROM pickup_datetime) between 18 and 23 then 4
+                  end as hour_of_day_group_sort_order
               , pickup_datetime
               , dropoff_datetime
               , rate_code
@@ -91,6 +97,12 @@ view: +input_data {
   dimension: hour_of_day_group {
     type: string
     sql: ${TABLE}.hour_of_day_group ;;
+    order_by_field: hour_of_day_group_sort_order
+  }
+
+  dimension: hour_of_day_group_sort_order {
+    type: number
+    sql: ${TABLE}.hour_of_day_group_sort_order ;;
   }
 
   dimension: rate_code {
@@ -263,5 +275,11 @@ view: +input_data {
     type: number
     sql: safe_divide(${after_midnight_trip_count},${trip_count}) ;;
     value_format_name: percent_1
+  }
+
+  measure: pct_of_trips {
+    type: percent_of_total
+    sql: ${trip_count} ;;
+
   }
 }
