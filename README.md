@@ -33,7 +33,7 @@ analyses.
 This Block requires a BigQuery database connection with the following:
 - Service account with the **BigQuery Data Editor** and **BigQuery Job User** predefined roles
 - PDTs enabled
-- The Looker PDT dataset must be located in the `US` multi-region location to use block's example Explores
+- The Looker PDT dataset must be located in the `US` multi-region location to use this block's example Explores
 
 
 ## Implementation Steps
