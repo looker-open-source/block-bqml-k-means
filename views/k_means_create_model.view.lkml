@@ -4,7 +4,7 @@ view: k_means_create_model {
 
     create_process: {
 
-      sql_step: CREATE OR REPLACE MODEL @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %}_k_means_model
+      sql_step: CREATE OR REPLACE MODEL @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %}_k_means_model_{{ _explore._name }}
                   OPTIONS(MODEL_TYPE = 'KMEANS'
                   {% if choose_number_of_clusters._parameter_value == 'auto' %}
                   {% else %}
