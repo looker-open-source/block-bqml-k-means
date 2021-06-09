@@ -14,9 +14,10 @@ You can even use segmentation for fraud detection as this unsupervised machine l
 
 ---
   K-means uses a distance alogirthm to:
-  - **Divide** data into clusters or segments
-  - where records within each cluster are as **similar** as possible
-  - and each cluster is as **dissimilar** from other clusters as possible
+  - **Divide** data into similar clusters or segments
+  - Ensures data within each group are as **similar** as possible
+  - Ensures each group is as **dissimilar** from other groups as possible
+
 ---
 
 This Quick Start guide will explain how a business analyst can create and evaluate a K-means segmentation model.
