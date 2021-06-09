@@ -143,6 +143,27 @@ view: +input_data {
     value_format_name: usd
   }
 
+  dimension: title_selected_segment_trips {
+    type: string
+    hidden: yes
+    sql: concat("Segment ", ${k_means_predict.centroid_id} ,": Percent of Daily Trips by Time of Day");;
+
+  }
+
+  dimension: title_all_trips {
+    type: string
+    hidden: yes
+    sql: "All Trips: Percent of Daily Trips by Time of Day";;
+
+  }
+
+  dimension: cash_or_credit {
+    type: string
+    sql: case when lower(${payment_type}) in ('cas','csh') then 'Cash'
+              when lower(${payment_type}) in ('cre','crd') then 'Credit'
+              end;;
+  }
+
 
   # COUNT MEASURES
 
@@ -282,4 +303,7 @@ view: +input_data {
     sql: ${trip_count} ;;
 
   }
+
+
+
 }
