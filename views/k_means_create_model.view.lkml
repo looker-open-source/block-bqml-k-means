@@ -55,7 +55,6 @@ view: k_means_create_model {
                       , item_id=S.item_id
                       , features=S.features
                       , created_at=S.created_at
-                      , explore=S.explore
                 WHEN NOT MATCHED THEN
                   INSERT (model_name, number_of_clusters, item_id, features, created_at, explore)
                   VALUES(model_name, number_of_clusters, item_id, features, created_at, explore)
@@ -70,21 +69,34 @@ view: k_means_create_model {
                   mean_squared_distance FLOAT64)
       ;;
 
-      sql_step: INSERT @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %}_k_means_evaluation_metrics_{{ _explore._name }}
-                  (item_id,
-                  features,
-                  number_of_clusters,
-                  created_at,
-                  davies_bouldin_index,
-                  mean_squared_distance)
-                SELECT  '{% parameter k_means_training_data.select_item_id %}' AS item_id,
-                        {% assign features = _filters['k_means_training_data.select_features'] | sql_quote | remove: '"' | remove: "'" %}
-                          '{{ features }}' AS features,
-                        '{% parameter k_means_hyper_params.choose_number_of_clusters %}' AS number_of_clusters,
-                        CURRENT_TIMESTAMP AS created_at,
+      sql_step: MERGE @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %}_k_means_evaluation_metrics_{{ _explore._name }} AS T
+                USING (SELECT  '{% parameter k_means_training_data.select_item_id %}' AS item_id,
+                                {% assign features = _filters['k_means_training_data.select_features'] | sql_quote | remove: '"' | remove: "'" %}
+                                  '{{ features }}' AS features,
+                                '{% parameter k_means_hyper_params.choose_number_of_clusters %}' AS number_of_clusters,
+                                CURRENT_TIMESTAMP AS created_at,
+                                davies_bouldin_index,
+                                mean_squared_distance
+                      FROM ML.EVALUATE(MODEL @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %}_k_means_model_{{ _explore._name }})
+                      ) AS S
+                ON T.item_id = S.item_id AND T.features = S.features AND T.number_of_clusters = S.number_of_clusters
+                WHEN MATCHED THEN
+                  UPDATE SET created_at=S.created_at
+                      , davies_bouldin_index=S.davies_bouldin_index
+                      , mean_squared_distance=S.mean_squared_distance
+                WHEN NOT MATCHED THEN
+                  INSERT (item_id,
+                          features,
+                          number_of_clusters,
+                          created_at,
+                          davies_bouldin_index,
+                          mean_squared_distance)
+                  VALUES(item_id,
+                        features,
+                        number_of_clusters,
+                        created_at,
                         davies_bouldin_index,
-                        mean_squared_distance
-                FROM ML.EVALUATE(MODEL @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %}_k_means_model_{{ _explore._name }})
+                        mean_squared_distance)
       ;;
     }
   }

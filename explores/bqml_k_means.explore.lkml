@@ -36,6 +36,11 @@ explore: bqml_k_means {
     relationship: many_to_many
   }
 
+  join: k_means_evaluate_history {
+    type: cross
+    relationship: many_to_many
+  }
+
   join: k_means_predict {
     type: cross
     relationship: many_to_many
