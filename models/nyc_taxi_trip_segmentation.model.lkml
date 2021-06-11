@@ -20,7 +20,7 @@ explore: nyc_taxi_trip_segmentation {
     description: "Important: Provide a unique name for your ML model"
     dimensions: [k_means_create_model.train_model]
     filters: [
-      k_means_create_model.choose_number_of_clusters: "5",
+      k_means_hyper_params.choose_number_of_clusters: "5",
       k_means_training_data.select_features: "\"fare_amount\",\"duration_minutes\",\"trip_distance\"",
       model_name.select_model_name: ""
     ]

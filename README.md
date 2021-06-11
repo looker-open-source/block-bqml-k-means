@@ -43,7 +43,7 @@ This Block requires a BigQuery database connection with the following:
 2. Create a subfolder in the *use_case_refinements* IDE folder for each new use case
 3. Within the use case subfolder make the following refinements:
   -  `input_data` View - include the sql definition for the input dataset (each row should represent an individual item / observation and include features users may want to include in the ML model)
-  -  `k_means_training_data` View - specify allowed parameter values for the item_id to be clustered (e.g. user_id) and optionally hide the parameter
+  -  `k_means_training_data` View - specify allowed parameter values for "Select Item ID" (e.g. user_id) and optionally hide the parameter if there is only one value
   -  `k_means_predict` View - specify dimension label for the item_id to be clustered (e.g. user_id)
   -  `model_name_suggestions` Explore - add a sql_always_where to filter out model name suggestions from other Explores
 4. Create a new model for your use case

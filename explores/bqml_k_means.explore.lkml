@@ -20,6 +20,11 @@ explore: bqml_k_means {
     relationship: many_to_one
   }
 
+  join: k_means_hyper_params {
+    sql:  ;;
+    relationship: many_to_one
+  }
+
   join: k_means_create_model {
     sql:  ;;
     relationship: many_to_one
