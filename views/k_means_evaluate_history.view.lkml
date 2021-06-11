@@ -6,12 +6,14 @@ view: k_means_evaluate_history {
   dimension: item_id {
     group_label: "Metric History"
     type: string
+    description: "Item or observation which was clustered."
     sql: ${TABLE}.item_id ;;
   }
 
   dimension: features {
     group_label: "Metric History"
     type: string
+    description: "Metrics or attributes used to create the clusters"
     sql: ${TABLE}.features ;;
   }
 
