@@ -5,6 +5,7 @@ explore: bqml_k_means {
   view_name: model_name
   group_label: "Advanced Analytics with BQML"
   description: "Use this Explore to build and evaluate a BQML K-means Clustering model"
+  persist_for: "0 minutes"
 
   always_filter: {
     filters: [model_name.select_model_name: ""]
