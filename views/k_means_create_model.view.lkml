@@ -34,7 +34,7 @@ view: k_means_create_model {
                       CURRENT_TIMESTAMP AS created_at,
                       '{{ _explore._name }}' AS explore
                       ) AS S
-                ON T.model_name = S.model_name
+                ON T.model_name = S.model_name AND T.explore = S.explore
                 WHEN MATCHED THEN
                   UPDATE SET number_of_clusters=S.number_of_clusters
                       , item_id=S.item_id
