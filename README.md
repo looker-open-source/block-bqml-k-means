@@ -18,7 +18,7 @@ required.
 Using this Block, you can integrate Looker with a BigQuery ML K-Means model to get the benefit of clustering
 and segmenting data using advanced analytics, without needing to be an expert in data science.
 
-K-means uses a distance alogirthm to:
+K-means uses a distance algorithm to:
 - Divide data into similar clusters or segments
 - Ensures data within each group are as similar as possible
 - Ensures each group is as dissimilar from other groups as possible
@@ -85,7 +85,7 @@ See [BigQuery ML Locations](https://cloud.google.com/bigquery-ml/docs/locations)
 
 
 ### Find an error or have suggestions for improvements?
-Blocks were designed for continuous improvement through the help of the entire Looker community, and we'd love your input. To log an error or improvement recommendations, simply create a "New Issue" in the corresponding Github repo for this Block. Please be as detailed as possible in your explanation, and we'll address it as quick as we can.
+Blocks were designed for continuous improvement through the help of the entire Looker community, and we'd love your input. To log an error or improvement recommendations, simply create a "New Issue" in the corresponding Github repo for this Block. Please be as detailed as possible in your explanation, and we'll address it as quickly as we can.
 
 
 #### Authors: Chris Schmidt, Jennifer Thomas
