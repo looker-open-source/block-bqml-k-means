@@ -40,16 +40,16 @@ This Block requires a BigQuery database connection with the following:
 
 1. Install block from Looker Marketplace
   - Specify the name of a BigQuery connection and the connection's dataset for Looker PDTs
-2. Create a subfolder in the *use_case_refinements* IDE folder for each new use case
-3. Within the use case subfolder make the following refinements:
-  -  `input_data` View - include the sql definition for the input dataset (each row should represent an individual item / observation and include features users may want to include in the ML model)
-  -  `k_means_training_data` View - specify allowed parameter values for "Select Item ID" (e.g. user_id) and optionally hide the parameter if there is only one value
-  -  `k_means_predict` View - specify dimension label for the item_id to be clustered (e.g. user_id)
-  -  `model_name_suggestions` Explore - add a sql_always_where to filter out model name suggestions from other Explores
-4. Create a new model for your use case
-5. Add include statement to include the `bqml_k_means` Explore and all refinements in your use case subfolder
-6. Create an Explore in your new use case model that extends the `bqml_k_means` Explore
-7. Define the JOIN between your input data and predictions in the extending Explore
+2. Create an IDE folder to save refinements for each new use case
+3. Create refinements of the following LookML files in the use case's IDE folder:
+  -  (REQUIRED) `input_data.view` - Include the sql definition for the input dataset. Each row should represent an individual item / observation to be clustered and include features / attributes of the item that users may want to use for defining clusters.
+  -  (RECOMMENDED) `model_name_suggestions.explore` - Add a *sql_always_where* clause to specify the `${model_info.explore} = *explore_name*`. This will prevent suggestions of ML models names created with other Explores.
+  -  (OPTIONAL) `k_means_training_data.view` - Specify allowed parameter values for "Select Item ID" (e.g. user_id) and optionally hide the parameter. The "Select Item ID" field requires the end user to select a field that uniquely identifies each row in the data.
+  -  (OPTIONAL) `k_means_predict.view` - The ID field chosen in "SELECT Item ID" is returned as `item_id` in model predictions. If there is only one valid ID field for "Select Item ID" (e.g. user_id), you may choose to add a label to the `item_id` dimension (e.g., User ID).
+4. Create a new LookML model for each use case
+5. Add include statements to include `bqml_k_means.explore` file and all refinement files in your use case IDE folder
+6. Create an Explore in the use case's LookML model that extends the `bqml_k_means` Explore
+7. Join `k_means_predict` to the extending Explore (*type: full_outer*) and define the JOIN criteria between `input_data` and `k_means_predict` in the extending Explore. (See [Example](/projects/bqml_k_means_block/files/models/ecommerce_customer_segmentation.model.lkml))
 
 
 ## Enabling Business Users
@@ -71,6 +71,10 @@ When using multiple BigQuery database connections with this block, it's recommen
 name for Looker PDTs in different BigQuery projects. This will prevent Looker PDT dataset references throughout
 the block from breaking.
 See [BigQuery ML Locations](https://cloud.google.com/bigquery-ml/docs/locations) for more details.
+
+Avoid using BigQuery analytic functions such as ROW_NUMBER() OVER() in the SQL definition of a use case's input data. Including
+analytic functions may cause BigQuery to return an InternalError code when used with BigQuery ML functions. If your input data is
+missing a primary key, CONCAT(*field_1, field_2, ...*) two or more columns to generate a unique ID instead of using ROW_NUMBER() OVER().
 
 
 ## Resources
