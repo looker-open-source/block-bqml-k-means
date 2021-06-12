@@ -19,8 +19,8 @@ explore: ecommerce_customer_segmentation {
     label: "Create Model"
     description: "Important: Provide a unique name for your ML model"
     dimensions: [k_means_create_model.train_model]
-    filters: [model_name.select_model_name: ""
-              , k_means_training_data.select_features: "\"days_since_latest_order\",\"lifetime_orders\",\"lifetime_revenue\""]
+    filters: [model_name.select_model_name: "",
+              k_means_training_data.select_features: "\"days_since_latest_order\",\"lifetime_orders\",\"lifetime_revenue\""]
   }
 
   query: evaluate_model {
