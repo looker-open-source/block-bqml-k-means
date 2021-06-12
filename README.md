@@ -54,7 +54,7 @@ This Block requires a BigQuery database connection with the following:
 
 ## Enabling Business Users
 
-This block comes with a [Quick Start Guide for Business Users](/projects/bqml_k_means_block/documents/QUICK_START_GUIDE.md) and two sample Explores.
+This block comes with a [Quick Start Guide for Business Users](/projects/bqml_k_means_block/documents/QUICK_START_GUIDE.md) and two example Explores.
 - BQML K-Means: eCommerce Customer Segmentation
 - BQML K-Means: NYC Taxi Trip Segmentation
 
