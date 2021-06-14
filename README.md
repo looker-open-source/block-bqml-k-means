@@ -22,9 +22,9 @@ K-means uses a distance algorithm to:
 - Ensures data within each group are as similar as possible
 - Ensures each group is as dissimilar from other groups as possible
 
-This Block adds the ability to identify clusters or segments in your data using a new or existing Explore. You
-can use this Block to create multiple K-Means models, save them, and refer to them in dashboards or custom
-analyses.
+This Block gives business users the ability to identify clusters or segments in data using a new or existing Explore. Explores
+created with this Block can be used to train multiple K-Means models, evaluate them, and access their predictions in dashboards
+or custom analyses.
 
 
 ## Block Requirements
