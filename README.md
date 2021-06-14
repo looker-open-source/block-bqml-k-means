@@ -42,7 +42,7 @@ This Block requires a BigQuery database connection with the following:
 2. Create an IDE folder to save refinements for each new use case
 3. Create refinements of the following LookML files in the use case's IDE folder:
   -  (REQUIRED) `input_data.view` - Include the sql definition for the input dataset. Each row should represent an individual item / observation to be clustered and include features / attributes of the item that users may want to use for defining clusters.
-  -  (RECOMMENDED) `model_name_suggestions.explore` - Add a *sql_always_where* clause to specify the `${model_info.explore} = *explore_name*`. This will prevent suggestions of ML models names created with other Explores.
+  -  (RECOMMENDED) `model_name_suggestions.explore` - Add a *sql_always_where* clause to specify the `${model_info.explore} = explore_name`. This will prevent suggestions of ML models names created with other Explores.
   -  (OPTIONAL) `k_means_training_data.view` - Specify allowed parameter values for "Select Item ID" (e.g. user_id) and optionally hide the parameter. The "Select Item ID" field requires the end user to select a field that uniquely identifies each row in the data.
   -  (OPTIONAL) `k_means_predict.view` - The ID field chosen in "SELECT Item ID" is returned as `item_id` in model predictions. If there is only one valid ID field for "Select Item ID" (e.g. user_id), you may choose to add a label to the `item_id` dimension (e.g., User ID).
 4. Create a new LookML model for each use case
