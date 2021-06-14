@@ -28,14 +28,14 @@ explore: nyc_taxi_trip_segmentation {
 
   query: evaluate_model {
     label: "Evaluate Model"
-    description: "Important: Specify model name from Create Model step"
+    description: "Important: Specify model name from Create Model"
     dimensions: [k_means_evaluate.davies_bouldin_index, k_means_evaluate.mean_squared_distance]
     filters: [model_name.select_model_name: ""]
   }
 
   query: get_predictions {
     label: "Get Predictions"
-    description: "Important: Specify model name from Create Model step"
+    description: "Important: Specify model name from Create Model"
     dimensions: [k_means_predict.centroid_id]
     measures: [k_means_predict.item_count, k_means_predict.item_count_percent_of_total, k_means_predict.total_item_count]
     filters: [model_name.select_model_name: ""]
