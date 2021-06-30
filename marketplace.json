@@ -1,9 +1,9 @@
 {
-  "label": "Census Data Block",
+  "label": "BigQuery ML Clustering or Segmentation (K-Means)",
   "category_label": "Models",
   "branding": {
-    "image_uri": "https://marketplace-api.looker.com/block-icons/acs_census_icon.png",
-    "tagline": "Contextualize your person-centered insights with the Census Data Block."
+    "image_uri": "https://marketplace-api.looker.com/block-icons/bq_icon.png",
+    "tagline": "Build Explores that allow business users to create machine learning models for classifying and profiling groups of similar records."
   },
 
   "constants": {
