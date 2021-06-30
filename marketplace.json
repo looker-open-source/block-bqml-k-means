@@ -17,7 +17,7 @@
   },
   "models": [
     {
-      "name": "data_block_acs_bigquery",
+      "name": "bqml_k_means",
       "connection_constant": "CONNECTION_NAME"
     }
   ]
