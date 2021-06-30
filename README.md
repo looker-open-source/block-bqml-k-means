@@ -91,4 +91,4 @@ missing a primary key, CONCAT(*field_1, field_2, ...*) two or more columns to ge
 Blocks were designed for continuous improvement through the help of the entire Looker community, and we'd love your input. To log an error or improvement recommendations, simply create a "New Issue" in the corresponding Github repo for this Block. Please be as detailed as possible in your explanation, and we'll address it as quickly as we can.
 
 
-#### Authors: Chris Schmidt, Jennifer Thomas
+#### Author: Google
