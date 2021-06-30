@@ -1,4 +1,4 @@
-connection: "@{database_connection}"
+connection: "@{CONNECTION_NAME}"
 
 include: "/explores/bqml_k_means.explore"
 include: "/use_case_refinements/ecommerce_customer_segmentation/*"
