@@ -1,4 +1,4 @@
-project_name: "bqml_k_means_block"
+project_name: "block-bqml-k-means"
 
 constant: CONNECTION_NAME {
   value: "advanced_analytics_accelerator"
