@@ -10,6 +10,10 @@
     "CONNECTION_NAME": {
       "label": "Connection Name",
       "value_constraint": "connection"
+    },
+    "LOOKER_TEMP_DATASET_NAME": {
+      "label": "Looker Temp Dataset Name",
+      "value_constraint": "connection"
     }
   },
   "models": [
@@ -19,3 +23,4 @@
     }
   ]
 }
+
