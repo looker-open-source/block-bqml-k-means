@@ -1,0 +1,21 @@
+{
+  "label": "Census Data Block",
+  "category_label": "Models",
+  "branding": {
+    "image_uri": "https://marketplace-api.looker.com/block-icons/acs_census_icon.png",
+    "tagline": "Contextualize your person-centered insights with the Census Data Block."
+  },
+
+  "constants": {
+    "CONNECTION_NAME": {
+      "label": "Connection Name",
+      "value_constraint": "connection"
+    }
+  },
+  "models": [
+    {
+      "name": "data_block_acs_bigquery",
+      "connection_constant": "CONNECTION_NAME"
+    }
+  ]
+}
