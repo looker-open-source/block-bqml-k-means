@@ -19,6 +19,14 @@
     {
       "name": "bqml_k_means",
       "connection_constant": "CONNECTION_NAME"
+    },
+    {
+      "name": "ecommerce_customer_segmentation",
+      "connection_constant": "CONNECTION_NAME"
+    },
+     {
+      "name": "nyc_taxi_trip_segmentation",
+      "connection_constant": "CONNECTION_NAME"
     }
   ]
 }
