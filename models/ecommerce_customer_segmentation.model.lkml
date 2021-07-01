@@ -8,6 +8,10 @@ explore: ecommerce_customer_segmentation {
   description: "Use this Explore to create BQML K-means Clustering models for customer segmentation analysis using Looker's eCommerce dataset"
 
   extends: [bqml_k_means]
+  
+  join: input_data {
+    from: input_data_ecommerce_customer_segmentation
+  }
 
   join: k_means_predict {
     type: full_outer
