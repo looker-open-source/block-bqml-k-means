@@ -1,6 +1,7 @@
 include: "/views/input_data.view"
 
-view: +input_data {
+view: input_data_ecommerce_customer_segmentation {
+  extends: [input_data]
   derived_table: {
     sql:  SELECT * EXCEPT(id,user_id), users.id as user_id
                 ,CAST(TIMESTAMP_DIFF(current_timestamp() , users.created_at , DAY) AS INT64) AS days_as_customer
