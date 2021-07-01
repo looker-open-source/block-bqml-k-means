@@ -48,12 +48,12 @@ This Block requires a BigQuery database connection with the following:
 4. Create a new LookML model for each use case
 5. Add include statements to include `bqml_k_means.explore` file and all refinement files in your use case IDE folder
 6. Create an Explore in the use case's LookML model that extends the `bqml_k_means` Explore
-7. Join `k_means_predict` to the extending Explore (*type: full_outer*) and define the JOIN criteria between `input_data` and `k_means_predict`. (See [Example](/projects/bqml_k_means_block/files/models/ecommerce_customer_segmentation.model.lkml))
+7. Join `k_means_predict` to the extending Explore (*type: full_outer*) and define the JOIN criteria between `input_data` and `k_means_predict`. (See [Example](/projects/marketplace_block_bqml_k_means/files/models/ecommerce_customer_segmentation.model.lkml))
 
 
 ## Enabling Business Users
 
-This block comes with a [Quick Start Guide for Business Users](/projects/bqml_k_means_block/documents/QUICK_START_GUIDE.md) and two example Explores.
+This block comes with a [Quick Start Guide for Business Users](/projects/marketplace_block_bqml_k_means/documents/QUICK_START_GUIDE.md) and two example Explores.
 - BQML K-Means: eCommerce Customer Segmentation
 - BQML K-Means: NYC Taxi Trip Segmentation
 
