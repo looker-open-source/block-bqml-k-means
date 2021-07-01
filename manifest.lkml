@@ -5,7 +5,7 @@ constant: CONNECTION_NAME {
   export: override_required
 }
 
-constant: LOOKER_TEMP_DATASET_NAME {
+constant: looker_temp_dataset_name {
   value: "looker_scratch"
   export: override_optional
 }
