@@ -11,7 +11,7 @@
       "label": "Connection Name",
       "value_constraint": "connection"
     },
-    "LOOKER_TEMP_DATASET_NAME": {
+    "looker_temp_dataset_name": {
       "label": "Looker Temp Dataset Name"
     }
   },
