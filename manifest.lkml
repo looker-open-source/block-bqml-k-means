@@ -6,6 +6,6 @@ constant: CONNECTION_NAME {
 }
 
 constant: LOOKER_TEMP_DATASET_NAME {
-  value: "looker_pdts"
+  value: "looker_scratch"
   export: override_optional
 }
