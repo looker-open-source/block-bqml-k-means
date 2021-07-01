@@ -7,4 +7,5 @@ constant: CONNECTION_NAME {
 
 constant: LOOKER_TEMP_DATASET_NAME {
   value: "looker_pdts"
+  export: override_optional
 }
