@@ -1,6 +1,6 @@
 include: "/views/input_data.view"
 
-view: input_data_ecommerce_customer_segmentation {
+view: input_data_nyc_taxi_trip_segmentation {
   extends: [input_data]
   derived_table: {
     sql:  SELECT CONCAT(pickup_datetime, pickup_latitude, pickup_longitude) as trip_id
