@@ -2,13 +2,6 @@ connection: "@{CONNECTION_NAME}"
 
 include: "/explores/bqml_k_means.explore"
 include: "/use_case_refinements/nyc_taxi_trip_segmentation/*"
-include: "/views/*"
-
-view: +k_means_create_model {
-  derived_table: {
-    persist_for: "1 second"
-  }
-}
 
 explore: nyc_taxi_trip_segmentation {
   label: "BQML K-Means: NYC Taxi Trip Segmentation"
