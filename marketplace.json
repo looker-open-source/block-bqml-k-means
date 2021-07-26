@@ -1,0 +1,33 @@
+{
+  "label": "BigQuery ML Clustering or Segmentation (K-Means)",
+  "category_label": "Models",
+  "branding": {
+    "image_uri": "https://marketplace-api.looker.com/block-icons/bq_new_icon.png",
+    "tagline": "Build Explores that allow business users to create machine learning models for classifying and profiling groups of similar records."
+  },
+
+  "constants": {
+    "CONNECTION_NAME": {
+      "label": "Connection Name",
+      "value_constraint": "connection"
+    },
+    "looker_temp_dataset_name": {
+      "label": "Looker Temp Dataset Name"
+    }
+  },
+  "models": [
+    {
+      "name": "bqml_k_means",
+      "connection_constant": "CONNECTION_NAME"
+    },
+    {
+      "name": "ecommerce_customer_segmentation",
+      "connection_constant": "CONNECTION_NAME"
+    },
+     {
+      "name": "nyc_taxi_trip_segmentation",
+      "connection_constant": "CONNECTION_NAME"
+    }
+  ]
+}
+
