@@ -38,21 +38,19 @@ view: k_means_centroid_item_count {
   }
 
   dimension: centroid_id {
-    label: "Nearest Centroid"
     hidden: yes
     primary_key: yes
   }
 
   dimension: item_count {
     label: "Count of Observations"
+    description: "Number of Observations in Centroid"
     type: number
-    description: "Number of Observations in Nearest Centroid"
-    hidden: no
   }
 
   dimension: item_pct_total {
     label: "Percent of Total Observations"
-    description: "Nearest Centroid Percent of Total Observations in Training Set"
+    description: "Centroid's Percent of Total Observations"
     type: number
     sql: ${TABLE}.item_pct_total ;;
     value_format_name: percent_1
@@ -111,15 +109,17 @@ view: k_means_centroids_indexed_values {
     hidden: yes
   }
 
-  dimension: nearest_centroid_label {
-    type: string
+  dimension: centroid_id_label {
+    label: "Centroid ID"
     description: "Centroid ID including Overall for Comparison"
+    type: string
     sql: case when ${centroid_id} = 0 then "Overall Weighted Average" else cast(${centroid_id} as string) end ;;
   }
 
-  dimension: nearest_centroid_label_with_pct_of_total {
-    type: string
+  dimension: centroid_id_label_with_pct_of_total {
+    label: "Centroid ID (with % of Total)"
     description: "Centroid ID (xx.x% of Total)"
+    type: string
     sql: case when ${centroid_id} = 0 then "Overall Weighted Average" else cast(${centroid_id} as string) end ;;
     html: {% if centroid_id._value == 0 %}
     {{rendered_value}}
@@ -151,37 +151,37 @@ view: k_means_centroids_indexed_values {
   dimension: pct_diff_from_training_set_weighted_avg {
     type: number
     hidden: yes
-    label: "Percent Difference from Average"
+    label: "Percent Difference from Training Set Average"
     description: "(Centroid Average / Training Set Weighted Average) - 1"
     value_format_name: percent_2
   }
 
   measure: pct_diff_from_weighted_avg {
+    label: "Percent Difference from Training Set Average"
     type: average
     description: "(Centroid Average / Training Set Weighted Average) - 1"
     sql: ${pct_diff_from_training_set_weighted_avg} ;;
     value_format_name: percent_1
   }
 
-  measure: centroid_value {
+  measure: average_value {
     type: average
-    label: "Nearest Centroid Value"
-    description: "Nearest Centroid Average Value"
+    label: "Centroid Average"
     sql: case when ${is_categorical} then ${value} * 100
           else ${value} end;;
     value_format_name: decimal_2
   }
 
-#for highlight chart, plot pct_diff_from_avg but display centroid_value._rendered_value
-  measure: centroid_value_highlight {
-    label: "Value "
+#for highlight chart, plot pct_diff_from_avg but display average_value._rendered_value
+  measure: average_value_highlight {
+    label: "Centroid Average (for conditional formatting)"
     description: "Use to Highlight which features are driving each cluster. Centroid value is displayed while underlying value is Percent Difference from Weighted Average. Use Percent Difference from Average in Table Conditional Formatting to highlight differences."
     type: average
     sql: ${pct_diff_from_training_set_weighted_avg} ;;
-    html: {% if is_categorical._value == 'Yes' %}{{ centroid_value._rendered_value | round:1 }}%
-        {% else %} {{ centroid_value._rendered_value }}
-        {% endif %};;
-
+    html: {% if is_categorical._value == 'Yes' %}{{ average_value._rendered_value | round:1 }}%
+        {% else %} {{ average_value._rendered_value }}
+        {% endif %}
+    ;;
     }
 
 }

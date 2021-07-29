@@ -3,7 +3,7 @@ include: "/views/*.view"
 explore: bqml_k_means {
   extension: required
   view_name: model_name
-  group_label: "Advanced Analytics with BQML"
+  group_label: "Looker + BigQuery ML"
   description: "Use this Explore to build and evaluate a BQML K-means Clustering model"
   persist_for: "0 minutes"
 

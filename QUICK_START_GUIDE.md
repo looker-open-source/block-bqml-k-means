@@ -119,20 +119,20 @@ Each observation is assigned to its **Nearest Centroid**. Expand the group **Cen
 
 ## **\[8\] BQML: Centroids**
 
-With the dimensions and measures in this section, you can generate a profile of each cluster by the attributes/behaviors (labeled **Feature and Category**) selected for the model in step **\[3\] BQML: Select Training Data**. Uses the nearest centroid means (labeled **Value**) produced by BigQuery ML K-means algorithm. Provides Feature Category normalized averages for each of the K clusters as well as an overall weighted average for the training data (cluster 0). By including the overall weighted average, you can compare each cluster not only to each other but also to the overall average.
+With the dimensions and measures in this section, you can generate a profile of each cluster by the attributes/behaviors (labeled **Feature and Category**) selected for the model in step **\[3\] BQML: Select Training Data**. Uses the centroid means (labeled **Centroid Average**) produced by BigQuery ML K-means algorithm. Provides Feature Category normalized averages for each of the K clusters as well as an overall weighted average for the training data (cluster 0). By including the overall weighted average, you can compare each cluster not only to each other but also to the overall average.
 
   > You have many different options for profiling clusters, The example below highlights which features are well below or well above the overall average.
 
-  > For the **Trip Segmentation** example, enter model name (trips\_by\_fare\_duration\_distance) in **\[2\] BQML: Name Your Model**. Add dimension **Feature and Category** as rows in the data grid and add **Nearest Centroid Label with Pct of Total** as PIVOT column.
+  > For the **Trip Segmentation** example, enter model name (trips\_by\_fare\_duration\_distance) in **\[2\] BQML: Name Your Model**. Add dimension **Feature and Category** as rows in the data grid and add **Centroid ID (with % of Total)** as PIVOT column.
 
-  > The measure **Value** is uniquely defined to display the **Centroid Value** while actually representing the **Pct Diff From Weighted Average**. Designing the metric this way will allow you to conditionally format the table and highlight the differences from the weighted average. To see and use the actual centroid value in a chart, you can select the measure **Nearest Centroid Value** or dimension **Value**.
+  > The measure **Centroid Average (for conditional formatting)** is uniquely defined to display the **Centroid Average** while actually representing the **Percent Difference from Training Set Average**. Designing the metric this way will allow you to conditionally format the table and highlight the differences from the training set's weighted average. To see and use the actual centroid average value in a chart, you can select the measure **Centroid Average**.
 
   > Click RUN to generate results and we'll walk through steps to format the visualization.
 
   > In Visualization Pane:
 
   > 1. select Table type visualization if not already selected
-  > 2. Click *Edit*, Select *Series* tab and *Uncheck* Cell Visualization under **Value** if turned on by default
+  > 2. Click *Edit*, Select *Series* tab and *Uncheck* Cell Visualization under **Centroid Average (for conditional formatting)** if turned on by default
   > 3. Select *Formatting* tab, Turn On *Enable Conditional Formatting*
   > 4. Add a *Conditional Formatting Rule*
   >     - along a scale

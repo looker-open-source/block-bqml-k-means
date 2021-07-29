@@ -4,13 +4,14 @@ view: k_means_centroids {
   sql_table_name: ML.CENTROIDS(MODEL @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %}_k_means_model_{{ _explore._name }}) ;;
 
   dimension: centroid_id {
+    hidden: yes
     primary_key: yes
     type: number
-    label: "Nearest Centroid"
     sql: coalesce(${TABLE}.centroid_id,0) ;;
   }
 
   dimension: feature {
+    hidden: yes
     type: string
     sql: ${TABLE}.feature ;;
   }
@@ -38,6 +39,7 @@ view: categorical_value {
   }
 
   dimension: category {
+    hidden: yes
   }
 
   dimension: value {
@@ -56,6 +58,7 @@ view: categorical_value {
   }
 
   dimension: feature_category_value {
+    hidden: yes
     label: "Value"
     description: "Nearest Centroid Average Value"
     type: number
