@@ -41,14 +41,14 @@ This Block requires a BigQuery database connection with the following:
   - Specify the name of a BigQuery connection and the connection's dataset for Looker PDTs
 2. Create an IDE folder to save refinements for each new use case
 3. Create refinements of the following LookML files in the use case's IDE folder:
-  -  (REQUIRED) `input_data.view` - Include the sql definition for the input dataset. Each row should represent an individual item / observation to be clustered and include features / attributes of the item that users may want to use for defining clusters.
-  -  (REQUIRED) `model_name_suggestions.explore` - Add a *sql_always_where* clause to specify the `${model_info.explore} = explore_name`. This will prevent suggestions of ML models names created with other Explores.
-  -  (OPTIONAL) `k_means_training_data.view` - Specify allowed parameter values and the default value for "Select Item ID" (e.g. trip_id) and optionally hide the parameter. The "Select Item ID" field requires the end user to select a field that uniquely identifies each row in the data.
-  -  (OPTIONAL) `k_means_predict.view` - The ID field chosen in "SELECT Item ID" is returned as `item_id` in model predictions. If there is only one valid ID field for "Select Item ID" (e.g. trip_id), you may choose to add a label to the `item_id` dimension (e.g., Trip ID).
+  - (REQUIRED) `input_data.view` - Include the sql definition for the input dataset. Each row should represent an individual item / observation to be clustered and include features / attributes of the item that users may want to use for defining clusters.
+  - (REQUIRED) `model_name_suggestions.explore` - Add a *sql_always_where* clause to specify the `${model_info.explore} = explore_name`. This will prevent suggestions of ML models names created with other Explores.
+  - (OPTIONAL) `k_means_training_data.view` - Specify allowed parameter values and the default value for "Select Item ID" (e.g. trip_id) and optionally hide the parameter. The "Select Item ID" field requires the end user to select a field that uniquely identifies each row in the data.
+  - (OPTIONAL) `k_means_predict.view` - The ID field chosen in "SELECT Item ID" is returned as `item_id` in model predictions. If there is only one valid ID field for "Select Item ID" (e.g. trip_id), you may choose to add a label to the `item_id` dimension (e.g., Trip ID).
 4. Create a new LookML model for each use case (See [Example](https://github.com/looker/block-bqml-k-means/blob/master/models/nyc_taxi_trip_segmentation.model.lkml))
   - Add include statements to include `bqml_k_means.explore` file and all refinement files in your use case IDE folder
   - Create an Explore in the use case's LookML model that extends the `bqml_k_means` Explore
-  - Join `k_means_predict` to the extending Explore (*type: full_outer*) and define the JOIN criteria between `input_data` and `k_means_predict`.
+  - Join `k_means_predict` to the extending Explore (*type: full_outer*) and define the JOIN criteria between `input_data` and `k_means_predict`
 
 
 ## Enabling Business Users
