@@ -82,6 +82,10 @@ For the required filter-only field **BQML Model Name (REQUIRED)**, enter a uniqu
 
 ## **\[3\] BQML: Select Training Data**  (*REQUIRED to create model*)
 
+Add **Select an ID Field (REQUIRED)** to the filter pane. Leave the default filter condition of *is equal to* for string values. Click in the empty string field and a list of the dimension found in **\[1\] BQML: Input Data** will be shown. You can only select one dimension. Be sure to select an ID dimension that uniquely identifies each observation you would like to cluster.
+
+  > For the **Trip Segmentation** example, select *trip_id*
+
 Add **Select Features (REQUIRED)** to the filter pane. Leave the default filter condition of *is equal to* for string values. Click in the empty string field and a list of the dimensions found in **\[1\] BQML: Input Data** will be shown. You can select one or more dimensions. Note, be sure to select meaningful attributes. Fields with random values like ID fields should be avoided. BigQuery ML will automatically handle categorical fields (e.g., gender, region) and also normalize across the inputs so that attributes with widely different scales (like Sales and Age) are treated equally.
 
   > For the **Trip Segmentation** example, select these three trip attributes: *trip_distance*, *duration_minutes*, *fare_amount*
