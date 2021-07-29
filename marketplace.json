@@ -12,7 +12,8 @@
       "value_constraint": "connection"
     },
     "looker_temp_dataset_name": {
-      "label": "Looker Temp Dataset Name"
+      "label": "Looker Temp Dataset Name",
+      "description": "The temporary dataset for Looker PDTs must be located in the US multi-region location to use this block’s example Explore. If your default BigQuery connection uses a temporary dataset located outside of the US, ask your Looker Admin to create another BigQuery connection in Looker with the temporary dataset for PDTs located in the US."
     }
   },
   "models": [
