@@ -51,6 +51,13 @@ join: k_means_predict {
   sql_on: ${nyc_taxi_trip_input_data.trip_id} = ${k_means_predict.item_id} ;;
 }
 
+## update type, relationship and sql_on to join k_means_predict.item_id to equivalent field in input_data view defined for use case
+ join: k_means_detect_anomalies {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${nyc_taxi_trip_input_data.trip_id} = ${k_means_detect_anomalies.item_id} ;;
+  }
+
 join: nearest_centroids_distance {
   sql: LEFT JOIN UNNEST(${k_means_predict.nearest_centroids_distance}) as nearest_centroids_distance ;;
   relationship: one_to_many
