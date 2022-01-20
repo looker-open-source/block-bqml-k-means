@@ -122,9 +122,9 @@ view: k_means_centroids_indexed_values {
     type: string
     sql: case when ${centroid_id} = 0 then "Overall Weighted Average" else cast(${centroid_id} as string) end ;;
     html: {% if centroid_id._value == 0 %}
-    {{rendered_value}}
+                <a style= "color:#003f5c;"> {{rendered_value}} </a>
           {% else %}
-        <a style="color:#003f5c;font-size:16px"> <b> {{rendered_value}} </b> </a>     <a style="font-size: 10px">({{ k_means_centroid_item_count.item_pct_total._rendered_value }})
+                <a style="color:#003f5c;font-size:16px"> <b> {{rendered_value}} </b> </a>     <a style="color:#003f5c;font-size: 10px">({{ k_means_centroid_item_count.item_pct_total._rendered_value }})
           {% endif %};;
   }
 
