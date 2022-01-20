@@ -68,22 +68,28 @@ At this point you can begin creating your own Explores incorporating the K-Means
 
 ## Building an Explore with the BQML K-Means Block
 
-The installed Block provides a workflow template as part of an Explore to guide a business user through the steps necessary to create and evaluate k-means segmentation models. As seen in the provided Explore `BQML K-Means: NYC Taxi Trip Segmentation`, a user navigates through a series of steps to create and evaluate a segmentation model. A few examples of the workflow steps are:
+The installed Block provides a workflow template as part of an Explore to guide a business user through the steps necessary to create and evaluate k-means segmentation models. As seen in the provided Explore `BQML K-Means: NYC Taxi Trip Segmentation`, a user navigates through a series of steps to create and evaluate a segmentation model. Examples of the workflow steps are:
 > <b>[1] BQML: Input Data<br>
 > [2] BQML: Name Your Model<br>
 > [3] BQML: Select Training Data<br>
 > [7] BQML: Predictions<br>
-> [8] BQML: Centroids</b>
+> [8] BQML: Centroids<br>
+> [9] BQML: Anomaly Detection</b>
 
 For each use case, a LookML developer will create an Explore incorporating the workflow template but changing the Input Data to match a specific use case. For example, your use case may be a segmentation model to classify customers into like groups based on lifetime revenue, recency, average spend and other attributes. You would add a new model and explore to the `marketplace_k-means project` extending the `bqml_k_means` explore that defines the overall workflow and modifying the input data to capture the desired data for your use case.
 
 At a high-level the steps for each use case are:
 ><b>1)  Create Folder for all Use Case files<br>
 >2)  Add New Model <br>
->3)  Add New Explore which Extends the Block's bqml_k_means Explore <br>
->4)  Make Refinements of select Explores and Views from the Block <br></b>
+>3)  Make Refinements of select Explores and Views from the Block <br>
+>4)  Add New Explore which Extends the Block's bqml_k_means Explore <br></b>
 
 Details and code examples for each step are provided next. Note, all steps take place in `marketplace_k-means` project while in **development mode**.
+
+---
+ <font size = "3"><font color="red"><i class='fa fa-exclamation-triangle'></i><b> note:  If copying/pasting example LookML from this document, ensure quotation marks are straight quotes (") </b></font></font><br>When pasting from this document, quotations may appear as curly or smart quotes (“). If necessary, re-type quotes in the LookML IDE to change to straight quotes.
+
+---
 
 ### 1. Create Folder for all Use Case files (one folder per use case)
 When you open the `marketplace_k-means` project while in development mode and review the `File Browser` pane, you will see the project contains a folder called `imported_projects`. Expanding this folder you will see a subfolder named `k-means`. This folder contains all the models, explores and views for the Block. These files are read-only; however, we will be including these files in the use case model and refining/extending a select few files to support the use case. You should keep all files related to the use case in a single folder. Doing so will allow easy editing of a use case. Within the project, you should create a separate folder for each use case.
@@ -111,21 +117,12 @@ Add a new model file for the use case, update the connection, and add include st
 | Add an include statement for the Block's `bqml_k_means.explore` so the file is available to this use case model and can be extended into the new Explore created in the next step.| include: "//k-means/**/bqml_k_means.explore" |
 | Click `SAVE` | |
 
-### 3. Add New Explore which Extends the Block's bqml_k_means Explore
-As noted earlier, all the files related to this Block are found in the `imported_projects\k-means` directory. The Explore file `bqml_k_means.explore` specifies all the views and join relationships to generate the stepped workflow the user will navigate through to create and evaluate segmentation models using K-Means. For each use case, you will use the `bqml_k_means` Explore as a starting point by extending it into a new Explore. The new Explore will build upon the content and settings from the original Explore and modify some of the components to fit the use case. See the [extends for Explores](https://docs.looker.com/reference/explore-params/extends) documentation page for more information on extends. In the previous step, we added the `include: "//k-means/**/bqml_k_means.explore"` statement to the model file so that we could use this Explore for the use case. Below are the steps for adding a new Explore to the use case model file.
 
-| steps | example                |
-| -- | -- |
-| Open the Use Case Model file | customer_value_segments.model |
-| Add Explore LookML which <br> a. includes label, group_label and/or description relevant to your use case<br>b. extends the bqml_k_means explore<br>c. updates the join parameter between `k_means_predict` and `input_data` to reflect correct unit<br> <br>The K-Means model prediction output assigns each unit of segmentation to a centroid (or segment). <br>Because the unit of segmentation can vary by use case, the Block uses generic term Item ID as part of the model prediction output for all k-means models. So we need to update the Explore to capture the correct unit defined in the use case's `input_data` file (note steps for generating this file are detailed in the next section).<br><br>In the example, edit the terms in <b><font color='orange'>bold</font></b> to fit your use case.<br> <br>Note, you may receive a warning that the field you entered in the JOIN for input_data does note exist. This warning can be ignored for now as the input_data.view will be created in the next step.|explore: <font color='orange'><b>customer_value_segment</b></font> {<br>  label: <font color='orange'><b>"BQML: K-Means Customer Value Segment"</b></font><br>  description: <font color='orange'><b>"Use this Explore to create Segmentation models based on customer value"</b></font><br><br>  extends: [bqml_k_means] <br><br>   join: k_means_predict {<br>    type:full_outer<br>    relationship: one_to_one<br>    sql_on: <font color = 'orange'><b>${input_data.customer_id}</b></font> = ${k_means_predict.item_id} ;;<br>  }<br>} |
-| Click `SAVE`| |
-
-
-### 4. Make Refinements of select Explores and Views from the Block
+### 3. Make Refinements of select Explores and Views from the Block
 Just like we used the bqml_k_means explore as a building block for the use case explore, we will adapt the Block's `input_data.view` and `model_name_suggestions.explore` and, if needed, adapt `k_means_training_data.view` and `k_means_predict.view` for the use case using LookML refinements syntax. To create a refinement you add a plus sign (+) in front of the name to indicate that it's a refinement of an existing view. All the parameters of the existing view will be used and select parameters can be modified (i.e., overwrite the original value). For detailed explanation of refinements, refer to the [LookML refinements](https://docs.looker.com/data-modeling/learning-lookml/refinements) documentation page. Within the use case folder, add a new `input_data.view`, a new `model_name_suggestions.explore` and optionally add new `k_means_predict.view` and `k_means_training_data.view` files. Keep reading for detailed steps for each refinement file.
 
 
-#### <font size=5>4a. input_data.view </font><font color='red'> (REQUIRED)
+#### <font size=5>3a. input_data.view </font><font color='red'> (REQUIRED)
 
 The input_data.view is where you define the data to use as input into the segmentation model. The Block's example input_data.view is a SQL derived table, so the use case refinement will update the derived_table syntax and all dimensions and measures to match the use case. We recommend using SQL Runner to test your query and generate the Derived Table syntax (see [SQL Runner](https://docs.looker.com/data-modeling/learning-lookml/sql-runner-create-dts) documentation for more information). The steps are below.
 
@@ -155,8 +152,8 @@ The input_data.view is where you define the data to use as input into the segmen
 ---
 
 
-#### <font size=5>4b. model_name_suggestions.explore </font><font color='red'> (REQUIRED)
-To create a K-Means segmentation model, the user must enter a name for the model and can type in any string value. The K-Means Explore also allows the user to evaluate a model which has already been created. The `Model Name` parameter allows users to select the name from a list of existing models created by the given Explore. These suggested values come from the `BQML_K_MEANS_MODEL_INFO` table stored in the Model Details dataset defined for the Block during installation. Because this table captures details for all models created with the Block across all Explores, we need to filter the suggestions by Explore name–the Explore created in `Implementation Step 3`. If you do not filter for the use case Explore, an error would occur if the user tries to evaluate a model based on different input data.
+#### <font size=5>3b. model_name_suggestions.explore </font><font color='red'> (REQUIRED)
+To create a K-Means segmentation model, the user must enter a name for the model and can type in any string value. The K-Means Explore also allows the user to evaluate a model which has already been created. The `Model Name` parameter allows users to select the name from a list of existing models created by the given Explore. These suggested values come from the `BQML_K_MEANS_MODEL_INFO` table stored in the Model Details dataset defined for the Block during installation. Because this table captures details for all models created with the Block across all Explores, we need to filter the suggestions by Explore name–the Explore which will be created next in `Implementation Step 4`. If you do not filter for the use case Explore, an error would occur if the user tries to evaluate a model based on different input data.
 
 The name suggestions come from the `model_name_suggestions.explore` and in this step we will refine the `sql_always_where` filter applied to the include the use case Explore name.
 
@@ -171,7 +168,7 @@ The name suggestions come from the `model_name_suggestions.explore` and in this 
 | On the next lines, enter<br> a. the explore name using the + refinement syntax<br> b. update sql_always_where syntax with use case explore name (as shown in <font color = 'orange'>bold</font> in the example) | explore: +model_name_suggestions {<br>  sql_always_where: ${model_info.explore} =<font color='orange'><b>'customer_value_segments'</b></font>;;<br>} |
 
 
-#### <font size=5>4c. k_means_predict.view </font><font color='red'> (OPTIONAL)
+#### <font size=5>3c. k_means_predict.view </font><font color='red'> (OPTIONAL)
 As noted earlier the K-Means prediction output uses generic term Item ID as the unit of segmentation for all Models. To improve the user experience, you may consider changing the label for Item ID to value more meaningful to the user (e.g., if segmenting on customers, change label to Customer Id).
 
 | steps | example |
@@ -179,14 +176,14 @@ As noted earlier the K-Means prediction output uses generic term Item ID as the 
 | From `File Browser` pane, navigate to and click on the Use Case Folder | |
 | To create the file insider the folder, click the folder's menu (found just to the right of the folder name) | |
 | Select Create View | |
-| In the Create File pop-up, enter `k_means_predict` <br><br>While this file name does not have to match the original filename, we recommend you keep it the same.| k_meansl_predict |
+| In the Create File pop-up, enter `k_means_predict` <br><br>While this file name does not have to match the original filename, we recommend you keep it the same.| k_means_predict |
 | Click `CREATE` |
 | On line 1 of the file insert include statement for the Block view to be refined | include: "//k-means/**/k_means_predict.view" |
 | Replace `view: k_means_predict` with `view: +k_means_predict` <br> <br>The plus sign (+) indicates we are modifying/refining the original k_means_predict view defined for the Block | view: +k_means_predict |
 | On next lines, add dimension: item_id and update *label:* accordingly:| dimension: item_id {<br>    <font color='orange'><b>label: "Customer ID"</b></font><br>} |
 | Click `SAVE`| |
 
-#### <font size=5>4d. k_means_training_data.view </font><font color='red'> (OPTIONAL)
+#### <font size=5>3d. k_means_training_data.view </font><font color='red'> (OPTIONAL)
 As part of the create K-Means segmentation model workflow, the user is required to include the `Select an ID Field` parameter to identify which field in the input data is the unit of segmentation (i.e., the field that uniquely identifies each row of the input data). To improve the user experience, you may set a default value for this parameter and hide it from the Explore, so the user does not have to make a selection.
 
 | steps | example |
@@ -200,6 +197,32 @@ As part of the create K-Means segmentation model workflow, the user is required 
 | Replace `view: k_means_training_data` with `view: +k_means_training_data` <br> <br>The plus sign (+) indicates we are modifying/refining the original k_means_training_data view defined for the Block | view: +k_means_training_data |
 | If you want to set the default and hide the parameter:<br>a. delete the auto-generated comments added when view file was created<br>b.update parameter: select_item_id with default value equal to primary key of the `input_data` view and set hidden to yes<br> <br><font color='red'><i class='fa fa-exclamation-triangle'></i> note: Using a default means the `input_data` view defined for the use case Explore must contain a field matching the default value otherwise an error may occur.</font> | parameter: select_item_id {<br>    <font color = 'orange'><b>default_value: "customer_id"<br>    hidden: yes<br></b></font> } |
 | Click `SAVE`| |
+
+
+
+### 4. Add New Explore which Extends the Block's bqml_k_means Explore
+As noted earlier, all the files related to this Block are found in the `imported_projects\k-means` directory. The Explore file `bqml_k_means.explore` specifies all the views and join relationships to generate the stepped workflow the user will navigate through to create and evaluate segmentation models using K-Means. For each use case, you will use the `bqml_k_means` Explore as a starting point by extending it into a new Explore. The new Explore will build upon the content and settings from the original Explore and modify some of the components to fit the use case. See the [extends for Explores](https://docs.looker.com/reference/explore-params/extends) documentation page for more information on extends. In the previous step, we added the `include: "//k-means/**/bqml_k_means.explore"` statement to the model file so that we could use this Explore for the use case. Below are the steps for adding a new Explore to the use case model file.
+
+| steps | example                |
+| -- | -- |
+| Open the Use Case Model file | customer_value_segments.model |
+| Add Explore LookML which <br> a. includes label, group_label and/or description relevant to your use case<br>b. extends the bqml_k_means explore<br>c. updates the join parameters of `k_means_predict` and `k_means_detect_anomalies` to reflect correct field to properly join to `input_data` <br> <br>The K-Means model prediction output assigns each unit of segmentation to a centroid (or segment). <br>Because the unit of segmentation can vary by use case, the Block uses generic term Item ID as part of the model prediction output and anomaly detection output for all k-means models. So we need to update the Explore to capture the correct unit defined in the use case's `input_data` file (as defined in the previous section).<br><br>In the example, edit the terms in <b><font color='orange'>bold</font></b> to fit your use case.<br> <br>|explore: <font color='orange'><b>customer_value_segment</b></font> {<br>  label: <font color='orange'><b>"BQML: K-Means Customer Value Segment"</b></font><br>  description: <font color='orange'><b>"Use this Explore to create Segmentation models based on customer value"</b></font><br><br>  extends: [bqml_k_means] <br><br>   join: k_means_predict {<br>    type:full_outer<br>    relationship: one_to_one<br>    sql_on: <font color = 'orange'><b>${input_data.customer_id}</b></font> = ${k_means_predict.item_id} ;;<br>  } <br> join: k_means_detect_anomalies {<br>    type:left_outer<br>    relationship: one_to_one<br>    sql_on: <font color = 'orange'><b>${input_data.customer_id}</b></font> = ${k_means_detect_anomalies.item_id} ;;<br>  }<br>} |
+| Click `SAVE`| |
+
+
+## K-Means CREATE MODEL Syntax
+
+With this Block, the user will be able to control these options for the K-Means Model:
+
+| options | description | default |
+| -- | -- | -- |
+| model name | name of the BigQuery ML model that you're creating or replacing |
+| num_clusters | The number of clusters to identify in the input data. Allowed values are 2 - 100 | auto (derived from number of observations in input data) |
+
+The user provides the values for the `select_item_id` and `select_features` parameters to define the training dataset input into the model. The `kmeans_init_method` of KMEANS++ is used for all K-Means models created with this Block. All other options are left at defaults. For more information about the possible options for the K-Means Model, see the [Create Model Syntax documentation](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-create-kmeans#create_model_syntax).
+
+Note, this block could be customized to include additional options and parameters.
+
 
 ## Enabling Business Users
 This block comes with a [Quick Start Guide for Business Users](https://github.com/looker/block-bqml-k-means/blob/master/QUICK_START_GUIDE.md) and the following example Explore for enabling business users.
