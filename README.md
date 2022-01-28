@@ -119,7 +119,7 @@ Add a new model file for the use case, update the connection, and add include st
 
 
 ### 3. Make Refinements of select Explores and Views from the Block
-Just like we used the bqml_k_means explore as a building block for the use case explore, we will adapt the Block's `input_data.view` and `model_name_suggestions.explore` and, if needed, adapt `k_means_training_data.view` and `k_means_predict.view` for the use case using LookML refinements syntax. To create a refinement you add a plus sign (+) in front of the name to indicate that it's a refinement of an existing view. All the parameters of the existing view will be used and select parameters can be modified (i.e., overwrite the original value). For detailed explanation of refinements, refer to the [LookML refinements](https://docs.looker.com/data-modeling/learning-lookml/refinements) documentation page. Within the use case folder, add a new `input_data.view`, a new `model_name_suggestions.explore` and optionally add new `k_means_predict.view` and `k_means_training_data.view` files. Keep reading for detailed steps for each refinement file.
+Just like we used the bqml_k_means explore as a building block for the use case explore, we will adapt the Block's `input_data.view` and `model_name_suggestions.explore` and, if needed, adapt `k_means_training_data.view`, `k_means_detect_anomalies.view` and `k_means_predict.view` for the use case using LookML refinements syntax. To create a refinement you add a plus sign (+) in front of the name to indicate that it's a refinement of an existing view. All the parameters of the existing view will be used and select parameters can be modified (i.e., overwrite the original value). For detailed explanation of refinements, refer to the [LookML refinements](https://docs.looker.com/data-modeling/learning-lookml/refinements) documentation page. Within the use case folder, add a new `input_data.view`, a new `model_name_suggestions.explore` and optionally add new `k_means_predict.view`, `k_means_detect_anomalies.view` and `k_means_training_data.view` files. Keep reading for detailed steps for each refinement file.
 
 
 #### <font size=5>3a. input_data.view </font><font color='red'> (REQUIRED)
@@ -183,7 +183,24 @@ As noted earlier the K-Means prediction output uses generic term Item ID as the 
 | On next lines, add dimension: item_id and update *label:* accordingly:| dimension: item_id {<br>    <font color='orange'><b>label: "Customer ID"</b></font><br>} |
 | Click `SAVE`| |
 
-#### <font size=5>3d. k_means_training_data.view </font><font color='red'> (OPTIONAL)
+
+#### <font size=5>3d. k_means_detect_anomalies.view </font><font color='red'> (OPTIONAL)
+The K-Means anomalies output uses generic term Item ID as the unit of segmentation for all Models. To improve the user experience, you may consider changing the label for Item ID to value more meaningful to the user (e.g., if segmenting on customers, change label to Customer Id).
+
+| steps | example |
+| -- | -- |
+| From `File Browser` pane, navigate to and click on the Use Case Folder | |
+| To create the file insider the folder, click the folder's menu (found just to the right of the folder name) | |
+| Select Create View | |
+| In the Create File pop-up, enter `k_means_detect_anomalies` <br><br>While this file name does not have to match the original filename, we recommend you keep it the same.| k_means_detect_anomalies |
+| Click `CREATE` |
+| On line 1 of the file insert include statement for the Block view to be refined | include: "//k-means/**/k_means_detect_anomalies.view" |
+| Replace `view: k_means_detect_anomalies` with `view: +k_means_detect_anomalies` <br> <br>The plus sign (+) indicates we are modifying/refining the original k_means_detect_anomalies view defined for the Block | view: +k_means_detect_anomalies |
+| On next lines, add dimension: item_id and update *label:* accordingly:| dimension: item_id {<br>    <font color='orange'><b>label: "Customer ID"</b></font><br>} |
+| Click `SAVE`| |
+
+
+#### <font size=5>3e. k_means_training_data.view </font><font color='red'> (OPTIONAL)
 As part of the create K-Means segmentation model workflow, the user is required to include the `Select an ID Field` parameter to identify which field in the input data is the unit of segmentation (i.e., the field that uniquely identifies each row of the input data). To improve the user experience, you may set a default value for this parameter and hide it from the Explore, so the user does not have to make a selection.
 
 | steps | example |
