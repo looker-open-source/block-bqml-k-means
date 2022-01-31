@@ -24,7 +24,7 @@ This Quick Start guide will outline how a business analyst can create and evalua
 
 ### Create Model Steps
 
-To create a model, you must review and make selections from *Steps 1 - 5*. You may also select from *Steps 6 - 8* when creating a model; however, these steps are not required to create the model.
+To create a model, you must review and make selections from *Steps 1 - 5*. You may also select from *Steps 6 - 9* when creating a model; however, these steps are not required to create the model.
 
 | Step  | Description |
 | ------------- | ------------- |

@@ -68,10 +68,13 @@ At this point you can begin creating your own Explores incorporating the K-Means
 
 ## Building an Explore with the BQML K-Means Block
 
-The installed Block provides a workflow template as part of an Explore to guide a business user through the steps necessary to create and evaluate k-means segmentation models. As seen in the provided Explore `BQML K-Means: NYC Taxi Trip Segmentation`, a user navigates through a series of steps to create and evaluate a segmentation model. Examples of the workflow steps are:
+The installed Block provides a workflow template as part of an Explore to guide a business user through the steps necessary to create and evaluate k-means segmentation models. As seen in the provided Explore `BQML K-Means: NYC Taxi Trip Segmentation`, a user navigates through a series of steps to create and evaluate a segmentation model. The workflow steps are:
 > <b>[1] BQML: Input Data<br>
 > [2] BQML: Name Your Model<br>
 > [3] BQML: Select Training Data<br>
+> [4] BQML: Set Model Parameters<br>
+> [5] BQML: Create Model<br>
+> [6] BQML: Evaluation Metrics<br>
 > [7] BQML: Predictions<br>
 > [8] BQML: Centroids<br>
 > [9] BQML: Anomaly Detection</b>
