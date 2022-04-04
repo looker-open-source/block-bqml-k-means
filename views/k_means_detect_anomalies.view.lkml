@@ -1,20 +1,13 @@
-#Anomalies are identified based on the value of each input data point's normalized distance to its nearest cluster, which, if exceeds a threshold determined by the contamination value, is identified as an anomaly.
+# Anomalies are identified based on the value of each input data point's normalized distance to its nearest cluster, which, if exceeds a threshold determined by the contamination value, is identified as an anomaly.
 
 view: k_means_detect_anomalies {
   label: "[9] BQML: Anomaly Detection"
 
-  # ML.DETECT_ANOMALIES(MODEL `sandbox.taxi_trip_types_k_means_model_nyc_taxi_trip_segmentation`,
-  #   STRUCT(0.01 AS contamination),
-  #   TABLE `sandbox.taxi_trip_types_k_means_training_data_nyc_taxi_trip_segmentation`)
-
-
-
-  sql_table_name: ML.DETECT_ANOMALIES(MODEL @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %}_k_means_model_{{ _explore._name }} ,
-                  STRUCT({% parameter set_contamination_threshold %} AS contamination),
-                  TABLE @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %}_k_means_training_data_{{ _explore._name }}
-                  )  ;;
-
-
+  sql_table_name: ML.DETECT_ANOMALIES(MODEL @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %}_k_means_model_{{ _explore._name }}
+                    , STRUCT({% parameter set_contamination_threshold %} AS contamination)
+                    , TABLE @{looker_temp_dataset_name}.{% parameter model_name.select_model_name %}_k_means_training_data_{{ _explore._name }}
+                  )
+  ;;
 
   parameter: set_contamination_threshold {
     label: "Contamination Threshold (optional)"

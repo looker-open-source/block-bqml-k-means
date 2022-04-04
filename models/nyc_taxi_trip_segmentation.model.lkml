@@ -1,6 +1,5 @@
 connection: "@{CONNECTION_NAME}"
 
-
 include: "/views/*.view"
 
 explore: nyc_taxi_trip_segmentation {
